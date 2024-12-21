@@ -1,0 +1,38 @@
+<livros>
+    <livro id="1">
+      <titulo>1984</titulo>
+      <autor>George Orwell</autor>
+      <ano>1949</ano>
+      <genero>Distopia</genero>
+    </livro>
+    <livro id="4">
+      <titulo>A Revolução dos Bichos</titulo>
+      <autor>George Orwell</autor>
+      <ano>1945</ano>
+      <genero>Sátira</genero>
+    </livro>
+    <livro id="9">
+      <titulo>Moby Dick</titulo>
+      <autor>Herman Melville</autor>
+      <ano>1851</ano>
+      <genero>Aventura</genero>
+    </livro>
+    <livro id="6">
+      <titulo>O Grande Gatsby</titulo>
+      <autor>F. Scott Fitzgerald</autor>
+      <ano>1925</ano>
+      <genero>Romance</genero>
+    </livro>
+    <livro id="7">
+      <titulo>Orgulho e Preconceito</titulo>
+      <autor>Jane Austen</autor>
+      <ano>1813</ano>
+      <genero>Romance</genero>
+    </livro>
+    <livro id="8">
+      <titulo>Admirável Mundo Novo</titulo>
+      <autor>Aldous Huxley</autor>
+      <ano>1932</ano>
+      <genero>Distopia</genero>
+    </livro>
+</livros>

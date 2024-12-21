@@ -1,0 +1,12 @@
+Arquivo: arquivo1 para.txt - Palavras: 141 - Letras: 815 
+
+Arquivo: arquivo1.txt - Palavras: 19 - Letras: 92 
+
+Arquivo: arquivo2 para.txt - Palavras: 140 - Letras: 851 
+
+Arquivo: arquivo2.txt - Palavras: 21 - Letras: 120 
+
+Arquivo: arquivo3 para.txt - Palavras: 133 - Letras: 812 
+
+Arquivo: arquivo3.txt - Palavras: 21 - Letras: 117 
+

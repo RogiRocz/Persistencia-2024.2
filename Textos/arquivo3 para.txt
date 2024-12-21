@@ -1,0 +1,8 @@
+Arquivo 3: Este é outro exemplo de conteúdo para arquivos de texto. Arquivos de texto são úteis para armazenar informações simples.
+Eles podem ser usados em projetos variados, desde a documentação de sistemas até o armazenamento de pequenas quantidades de dados estruturados.
+Além disso, como são facilmente portáveis entre sistemas operacionais, continuam sendo uma ferramenta fundamental em TI.
+
+A simplicidade dos arquivos de texto é especialmente útil em contextos onde a complexidade pode ser uma desvantagem. Por exemplo, scripts de automação frequentemente usam arquivos de texto para salvar resultados intermediários.
+Embora existam formatos mais modernos, o .txt permanece relevante devido à sua acessibilidade.
+
+Em resumo, os arquivos de texto são uma parte essencial da tecnologia, permitindo soluções rápidas e eficazes. Mesmo em um mundo cheio de inovações, eles continuam desempenhando um papel significativo.

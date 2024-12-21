@@ -1,0 +1,8 @@
+Arquivo 2: A linguagem Python é versátil e muito usada em diversas áreas, incluindo ciência de dados, desenvolvimento web e automação.
+Com uma comunidade robusta, Python oferece bibliotecas poderosas para diferentes finalidades, como NumPy para computação científica, Flask e Django para web, e PyAutoGUI para automação.
+Seu uso contínuo cresce graças à sua sintaxe simples e acessível, que atrai tanto iniciantes quanto programadores experientes.
+
+Outro fator que contribui para a popularidade de Python é sua vasta documentação e a quantidade de tutoriais disponíveis online. Isso torna o aprendizado mais fácil e acessível.
+Muitas empresas escolhem Python como sua linguagem principal devido à rapidez com que os desenvolvedores conseguem criar e entregar projetos funcionais.
+
+Portanto, dominar Python pode abrir muitas portas no mercado de trabalho. Seja para criar soluções internas ou desenvolver produtos inovadores, Python se destaca como uma excelente escolha.
