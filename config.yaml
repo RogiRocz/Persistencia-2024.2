@@ -1,0 +1,14 @@
+logging:
+  level: "INFO"  # Nível do log: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "app.log"
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+
+formatter_json:
+  nome: string
+  temperatura_media: float
+  precipitacao_media: float
+  umidade_relativa: int
+  vento_medio: float
+
+data:
+  file: "data_yaml.json"  # Arquivo JSON com dados a serem processados
