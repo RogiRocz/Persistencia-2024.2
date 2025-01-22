@@ -5,8 +5,6 @@ import yaml
 import json
 import os
 import logging as log
-from sqlalchemy import event
-import psycopg2 as ps
 
 def get_config():
     # Lembra de colocar os logs
