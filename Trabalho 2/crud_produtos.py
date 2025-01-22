@@ -1,101 +1,107 @@
-from decimal import Decimal
-from fastapi import FastAPI, Depends, HTTPException
-from http import HTTPStatus
+from fastapi import Depends, HTTPException, APIRouter
+from pydantic import BaseModel, Field, validator
 from sqlalchemy.orm import Session
-from db_models import Clientes, Estoque, Produtos, Vendas, Fornecedores
 from db_connect import get_db
+from db_models import Produtos
+from http import HTTPStatus
 from sqlalchemy.exc import SQLAlchemyError
-from pydantic import BaseModel, Field
+from decimal import Decimal
 
 class ProdutoPy(BaseModel):
     nome: str
     valor_unitario: Decimal = Field(max_digits=10, decimal_places=2)
-
-app = FastAPI()
-
-@app.get('/')
-def home():
-    return "Ola: Mundo"
-
-@app.get('/produtos')
-def get_all_produtos(db: Session = Depends(get_db)):
-    return db.query(Produtos).order_by(Produtos.ID_Produto).all()
-
-@app.get('/produtos/{id_produto}')
-def get_produto(id_produto: int, db: Session = Depends(get_db)):
-    if not id_produto:
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID inválido')    
     
-    try:
-        query = db.query(Produtos).filter_by(ID_Produto = id_produto).first() 
-        if query is None:
-            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID não encontrado')
-    except HTTPException as e:
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=f'Erro ao retornar o produto. Erro: {str(e)}')
-    return query
+    @validator('valor_unitario')
+    def validate_valor_unitario(cls, value):
+        value_str = str(value)
+        if len(value_str.replace('.', '')) > 10:
+            raise ValueError('O valor unitário não pode ter mais de 10 dígitos no total.')
+        if '.' in value_str and len(value_str.split('.')[1]) > 2:
+            raise ValueError('O valor unitário não pode ter mais de 2 casas decimais.')
+        return value
 
-@app.post('/produtos')
-def create_produto(produto_req: ProdutoPy, db: Session = Depends(get_db)):
-    if not produto_req.nome:
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST,detail="O nome do produto não pode estar vazio.")
-    if produto_req.valor_unitario <= 0:
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST,detail="O valor unitário deve ser maior que zero.")
-    
-    try:
-        produto = Produtos(nome=produto_req.nome, valor_unitario=produto_req.valor_unitario)
-        db.add(produto)
-        db.commit()
-        db.refresh(produto)
-    except SQLAlchemyError as e:
-        db.rollback()
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao criar produto no banco de dados: {str(e)}")
-    else:
-        return produto
+def route_produtos(pref: str):
+    router = APIRouter(prefix=f'/{pref}', tags=[pref])
 
-@app.put('/Produtos/{id_produto}')
-def update_produto(id_produto: int, produto_req: ProdutoPy, db: Session = Depends(get_db)):
-    if not id_produto:
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID inválido')
-    
-    try:
-        produto_db = db.query(Produtos).filter_by(ID_Produto = id_produto).first()
-        if produto_db is None:
-            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID não encontrado')
+    @router.get('/')
+    def get_all_produtos(db: Session = Depends(get_db)):
+        return db.query(Produtos).order_by(Produtos.ID_Produto).all()
+
+    @router.get('/{id_produto}')
+    def get_produto(id_produto: int, db: Session = Depends(get_db)):
+        if not id_produto:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID inválido')    
         
-        produto_antigo = {
-            "ID_Produto": produto_db.ID_Produto,
-            "nome": produto_db.nome,
-            "valor_unitario": produto_db.valor_unitario
-        }
+        try:
+            query = db.query(Produtos).filter_by(ID_Produto = id_produto).first() 
+            if query is None:
+                raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID não encontrado')
+        except HTTPException as e:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail=f'Erro ao retornar o produto. Erro: {str(e)}')
+        return query
+
+    @router.post('/')
+    def create_produto(produto_req: ProdutoPy, db: Session = Depends(get_db)):
+        if not produto_req.nome:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST,detail="O nome do produto não pode estar vazio.")
+        if produto_req.valor_unitario <= 0:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST,detail="O valor unitário deve ser maior que zero.")
         
-        if produto_db.nome is not None:
-            produto_db.nome = produto_req.nome
-        if produto_db.valor_unitario is not None:
-            produto_db.valor_unitario = produto_req.valor_unitario
+        try:
+            produto = Produtos(nome=produto_req.nome, valor_unitario=produto_req.valor_unitario)
+            db.add(produto)
+            db.commit()
+            db.refresh(produto)
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao criar produto no banco de dados: {str(e)}")
+        else:
+            return produto
+
+    @router.put('/{id_produto}')
+    def update_produto(id_produto: int, produto_req: ProdutoPy, db: Session = Depends(get_db)):
+        if not id_produto:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID inválido')
+        
+        try:
+            produto_db = db.query(Produtos).filter_by(ID_Produto = id_produto).first()
+            if produto_db is None:
+                raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID não encontrado')
             
-        db.commit()
-        db.refresh(produto_db)
-    except SQLAlchemyError as e:
-        db.rollback()
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao atualizar o produto no banco de dados: {str(e)}")
-    except Exception as e:
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao atualizar o produto no banco de dados: {str(e)}")
-    else:
-        return produto_antigo
+            produto_antigo = {
+                "ID_Produto": produto_db.ID_Produto,
+                "nome": produto_db.nome,
+                "valor_unitario": produto_db.valor_unitario
+            }
+            
+            if produto_db.nome is not None:
+                produto_db.nome = produto_req.nome
+            if produto_db.valor_unitario is not None:
+                produto_db.valor_unitario = produto_req.valor_unitario
+                
+            db.commit()
+            db.refresh(produto_db)
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao atualizar o produto no banco de dados: {str(e)}")
+        else:
+            return produto_antigo
 
-@app.delete('/Produtos/{id_produto}')
-def delete_produto(id_produto: int, db: Session = Depends(get_db)):
-    if not id_produto:
-        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID inválido')
+    @router.delete('/{id_produto}')
+    def delete_produto(id_produto: int, db: Session = Depends(get_db)):
+        if not id_produto:
+            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID inválido')
+        
+        try:
+            del_produto = db.query(Produtos).filter_by(ID_Produto = id_produto).first()
+            if del_produto is None:
+                raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID não encontrado')
+            db.delete(del_produto)
+            db.commit()        
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao excluir o produto no banco de dados: {str(e)}")
+        else:
+            return del_produto
     
-    try:
-        del_produto = db.query(Produtos).filter_by(ID_Produto = id_produto).first()
-        if del_produto is None:
-            raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID não encontrado')
-        del_produto.delete(synchronize_session=False)
-        db.commit()        
-    except SQLAlchemyError as e:
-        db.rollback()
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=f"Erro ao excluir o produto no banco de dados: {str(e)}")
-    else:
-        return del_produto
+    return router
