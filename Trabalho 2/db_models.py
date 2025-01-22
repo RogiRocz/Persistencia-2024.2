@@ -8,11 +8,11 @@ class Produtos(Base):
     __tablename__ = "produtos"
     ID_Produto = Column(Integer, primary_key=True)
     nome = Column(String(50), nullable=False)
-    valor_unitario = Column(Numeric(10, 2), nullable=False)  # Numeric para valores financeiros
+    valor_unitario = Column(Numeric(10, 2), nullable=False)
 
     vendas = relationship("Vendas", back_populates="produtos")
     fornecedores = relationship("Fornecedores", back_populates="produtos")
-    estoque = relationship("Estoque", back_populates="produtos", uselist=False)  # Um estoque por produto
+    estoque = relationship("Estoque", back_populates="produtos", uselist=False)
 
 class Clientes(Base):
     __tablename__ = "clientes"
