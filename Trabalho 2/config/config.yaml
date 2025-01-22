@@ -1,0 +1,16 @@
+logging:
+  level: "INFO"  # Nível do log: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "log_db_connect.log"
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+  filemode: "w"
+
+db_connection:
+  database: "Trabalho_02"
+  host: "localhost"
+  port: "5432"
+  user: "postgres"
+  password: "qwe123"
+
+db_tables: [Produtos, Clientes, Vendas, Fornecedores, Estoque]
+
+files_data_inserted: [data_produtos.json, data_clientes.json, data_vendas.json, data_fornecedores.json, data_estoque.json]

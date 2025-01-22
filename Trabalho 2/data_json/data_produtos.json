@@ -1,0 +1,28 @@
+[
+    {
+      "ID_Produto": 1,
+      "Nome": "Arroz 5kg",
+      "Valor_Unitario": 24.90
+    },
+    {
+      "ID_Produto": 2,
+      "Nome": "Feijão 1kg",
+      "Valor_Unitario": 7.50
+    },
+    {
+      "ID_Produto": 3,
+      "Nome": "Macarrão Espaguete 500g",
+      "Valor_Unitario": 4.30
+    },
+    {
+      "ID_Produto": 4,
+      "Nome": "Óleo de Soja 900ml",
+      "Valor_Unitario": 8.70
+    },
+    {
+      "ID_Produto": 5,
+      "Nome": "Açúcar Refinado 1kg",
+      "Valor_Unitario": 5.20
+    }
+]
+  
