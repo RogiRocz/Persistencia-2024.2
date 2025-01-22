@@ -1,9 +1,0 @@
-2025-01-21 18:27:04,290 - INFO - Logging configurado com sucesso
-2025-01-21 18:27:04,291 - INFO - Criando as tabelas
-2025-01-21 18:27:04,522 - INFO - Tabelas criadas com sucesso
-2025-01-21 18:27:04,522 - INFO - Inserindo dados iniciais
-2025-01-21 18:27:04,557 - INFO - Dados inseridos do arquivo: f:\Documentos\Disciplinas da faculdade\2024.2\Persistência\code\Trabalho 2\./data_json/data_produtos.json
-2025-01-21 18:27:04,566 - INFO - Dados inseridos do arquivo: f:\Documentos\Disciplinas da faculdade\2024.2\Persistência\code\Trabalho 2\./data_json/data_clientes.json
-2025-01-21 18:27:04,587 - INFO - Dados inseridos do arquivo: f:\Documentos\Disciplinas da faculdade\2024.2\Persistência\code\Trabalho 2\./data_json/data_vendas.json
-2025-01-21 18:27:04,597 - INFO - Dados inseridos do arquivo: f:\Documentos\Disciplinas da faculdade\2024.2\Persistência\code\Trabalho 2\./data_json/data_fornecedores.json
-2025-01-21 18:27:04,611 - INFO - Dados inseridos do arquivo: f:\Documentos\Disciplinas da faculdade\2024.2\Persistência\code\Trabalho 2\./data_json/data_estoque.json
