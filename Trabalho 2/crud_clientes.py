@@ -6,6 +6,7 @@ from db_models import Clientes
 from http import HTTPStatus
 from sqlalchemy.exc import SQLAlchemyError
 from typing import Optional
+from pagination import PaginationParams
 
 class ClientePy(BaseModel):
     forma_pagamento: str
@@ -17,6 +18,23 @@ def route_clientes(pref: str):
     @router.get('/')
     def get_all_clientes(db: Session = Depends(get_db)):
         return db.query(Clientes).order_by(Clientes.ID_Cliente).all()
+    
+    @router.get('/')
+    def get_all_clientes_pagination(pag: PaginationParams = Depends(), db: Session = Depends(get_db)):
+        offset = (pag.page - 1) * pag.limit
+        clientes = db.query(Clientes).offset(offset).limit(pag.limit).all()
+        total_clientes = db.query(Clientes).count()
+        total_pages = (total_clientes + pag.limit - 1) // pag.limit
+        
+        return {
+            'data': clientes,
+            'pagination': {
+                'page': pag.page,
+                'limit': pag.limit,
+                'total_clientes': total_clientes,
+                'total_pages': total_pages
+            }
+        }
 
     @router.get('/{id_cliente}')
     def get_cliente(id_cliente: int, db: Session = Depends(get_db)):

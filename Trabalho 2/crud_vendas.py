@@ -6,20 +6,27 @@ from db_models import Vendas
 from http import HTTPStatus
 from sqlalchemy.exc import SQLAlchemyError
 from decimal import Decimal
+from pagination import PaginationParams
 
 class VendaPy(BaseModel):
     ID_Cliente: int
     ID_Produto: int
     quantidade: int
     valor_total: Decimal = Field(max_digits=10, decimal_places=2)
-    
-    @validator('valor_unitario')
+
+    @validator('quantidade')
+    def validate_quantidade(cls, value):
+        if value <= 0:
+            raise ValueError('A quantidade deve ser maior que zero.')
+        return value
+
+    @validator('valor_total')
     def validate_valor_total(cls, value):
         value_str = str(value)
         if len(value_str.replace('.', '')) > 10:
-            raise ValueError('O valor unitário não pode ter mais de 10 dígitos no total.')
+            raise ValueError('O valor total não pode ter mais de 10 dígitos no total.')
         if '.' in value_str and len(value_str.split('.')[1]) > 2:
-            raise ValueError('O valor unitário não pode ter mais de 2 casas decimais.')
+            raise ValueError('O valor total não pode ter mais de 2 casas decimais.')
         return value
 
 def route_vendas(pref: str):
@@ -28,6 +35,23 @@ def route_vendas(pref: str):
     @router.get('/')
     def get_all_vendas(db: Session = Depends(get_db)):
         return db.query(Vendas).order_by(Vendas.ID_Venda).all()
+    
+    @router.get('/')
+    def get_all_vendas_pagination(pag: PaginationParams = Depends(), db: Session = Depends(get_db)):
+        offset = (pag.page - 1) * pag.limit
+        vendas = db.query(Vendas).offset(offset).limit(pag.limit).all()
+        total_vendas = db.query(Vendas).count()
+        total_pages = (total_vendas + pag.limit - 1) // pag.limit
+        
+        return {
+            'data': vendas,
+            'pagination': {
+                'page': pag.page,
+                'limit': pag.limit,
+                'total_vendas': total_vendas,
+                'total_pages': total_pages
+            }
+        }
 
     @router.get('/{id_venda}')
     def get_venda(id_venda: int, db: Session = Depends(get_db)):

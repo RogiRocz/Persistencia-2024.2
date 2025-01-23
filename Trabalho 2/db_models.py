@@ -38,6 +38,7 @@ class Vendas(Base):
 class Fornecedores(Base):
     __tablename__ = "fornecedores"
     ID_Fornecedor = Column(Integer, primary_key=True)
+    cnpj = Column(String(14), nullable=False)
     nome = Column(String(50), nullable=False)
     ID_Produto = Column(Integer, ForeignKey("produtos.ID_Produto"), nullable=False)
     quantidade = Column(Integer, nullable=False)

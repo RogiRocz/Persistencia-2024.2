@@ -1,6 +1,6 @@
 logging:
   level: "INFO"  # Nível do log: DEBUG, INFO, WARNING, ERROR, CRITICAL
-  file: "log_db_connect.log"
+  file: "app.log"
   format: "%(asctime)s - %(levelname)s - %(message)s"
   filemode: "w"
 

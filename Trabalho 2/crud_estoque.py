@@ -5,6 +5,7 @@ from db_connect import get_db
 from db_models import Estoque
 from http import HTTPStatus
 from sqlalchemy.exc import SQLAlchemyError
+from pagination import PaginationParams
 
 class EstoquePy(BaseModel):
     ID_Fornecedor: int
@@ -19,6 +20,23 @@ def route_estoque(pref: str):
     @router.get('/')
     def get_all_estoque(db: Session = Depends(get_db)):
         return db.query(Estoque).order_by(Estoque.ID_Estoque).all()
+    
+    @router.get('/')
+    def get_all_estoque_pagination(pag: PaginationParams = Depends(), db: Session = Depends(get_db)):
+        offset = (pag.page - 1) * pag.limit
+        estoque = db.query(Estoque).offset(offset).limit(pag.limit).all()
+        total_estoque = db.query(Estoque).count()
+        total_pages = (total_estoque + pag.limit - 1) // pag.limit
+        
+        return {
+            'data': estoque,
+            'pagination': {
+                'page': pag.page,
+                'limit': pag.limit,
+                'total_estoque': total_estoque,
+                'total_pages': total_pages
+            }
+        }
 
     @router.get('/{id_estoque}')
     def get_estoque(id_estoque: int, db: Session = Depends(get_db)):

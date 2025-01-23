@@ -6,6 +6,7 @@ from db_models import Fornecedores
 from http import HTTPStatus
 from sqlalchemy.exc import SQLAlchemyError
 from decimal import Decimal
+from pagination import PaginationParams
 
 
 class FornecedorPy(BaseModel):
@@ -29,6 +30,23 @@ def route_fornecedores(pref: str):
     @router.get('/')
     def get_all_fornecedores(db: Session = Depends(get_db)):
         return db.query(Fornecedores).order_by(Fornecedores.ID_Fornecedor).all()
+    
+    @router.get('/')
+    def get_all_fornecedores_pagination(pag: PaginationParams = Depends(), db: Session = Depends(get_db)):
+        offset = (pag.page - 1) * pag.limit
+        fornecedores = db.query(Fornecedores).offset(offset).limit(pag.limit).all()
+        total_fornecedores = db.query(Fornecedores).count()
+        total_pages = (total_fornecedores + pag.limit - 1) // pag.limit
+        
+        return {
+            'data': fornecedores,
+            'pagination': {
+                'page': pag.page,
+                'limit': pag.limit,
+                'total_fornecedores': total_fornecedores,
+                'total_pages': total_pages
+            }
+        }
 
     @router.get('/{id_fornecedor}')
     def get_fornecedor(id_fornecedor: int, db: Session = Depends(get_db)):

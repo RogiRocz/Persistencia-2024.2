@@ -6,6 +6,7 @@ from db_models import Produtos
 from http import HTTPStatus
 from sqlalchemy.exc import SQLAlchemyError
 from decimal import Decimal
+from pagination import PaginationParams
 
 class ProdutoPy(BaseModel):
     nome: str
@@ -26,6 +27,15 @@ def route_produtos(pref: str):
     @router.get('/')
     def get_all_produtos(db: Session = Depends(get_db)):
         return db.query(Produtos).order_by(Produtos.ID_Produto).all()
+    
+    @router.get('/')
+    def get_all_produtos_pagination(pag: PaginationParams = Depends(), db: Session = Depends(get_db)):
+        offset = (pag.page - 1) * pag.limit
+        produtos = db.query(Produtos).offset(offset).limit(pag.limit).all()
+        total_produtos = db.query(Produtos).count()
+        total_pages = (total_produtos + pag.limit - 1) // pag.limit
+        
+        return {'data': produtos, 'pagination': {'page': pag.page, 'limit': pag.limit, 'total_produtos': total_produtos, 'total_pages': total_pages}}
 
     @router.get('/{id_produto}')
     def get_produto(id_produto: int, db: Session = Depends(get_db)):
