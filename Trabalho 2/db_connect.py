@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, URL
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker
 import db_models
 import yaml
 import json
@@ -7,14 +7,12 @@ import os
 import logging as log
 
 def get_config():
-    # Lembra de colocar os logs
     curr_dir = os.path.abspath(os.path.dirname(__file__))
     config_path = os.path.join(curr_dir, "config", "config.yaml")
     with open(config_path, "r") as file:
         config = yaml.safe_load(file)
         return config    
 
-# Configurando o log
 def configura_logging():
     config = get_config()
     curr_dir = os.path.abspath(os.path.dirname(__file__))
@@ -29,7 +27,6 @@ def configura_logging():
     log.basicConfig(filename=logfile_path, level=log_config['level'], format=log_config['format'], filemode=log_config['filemode'])
     log.info('Logging configurado com sucesso')
 
-# Conectando ao banco de dados
 config = get_config()
 db_connection = config['db_connection']
 dbname, host, port, user, password = db_connection["database"], db_connection["host"], db_connection["port"], db_connection["user"], db_connection["password"]

@@ -30,7 +30,7 @@ class Vendas(Base):
     ID_Cliente = Column(Integer, ForeignKey("clientes.ID_Cliente"), nullable=False)
     ID_Produto = Column(Integer, ForeignKey("produtos.ID_Produto"), nullable=False)
     quantidade = Column(Integer, nullable=False)
-    valor_total = Column(Numeric(10, 2), nullable=False)  # Numeric para valores financeiros
+    valor_total = Column(Numeric(10, 2), nullable=False)
 
     produtos = relationship("Produtos", back_populates="vendas")
     clientes = relationship("Clientes", back_populates="vendas")

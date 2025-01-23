@@ -94,8 +94,6 @@ def quantidade_entidades(db: Session = Depends(get_db)):
         })
         return resultado
 
-from fastapi import Request  # Adicione esta importação
-
 @app.get('/atributos')
 def get_atributos_especificos(entidade: str, request: Request, db: Session = Depends(get_db)):
     logger.info(f"Iniciando consulta de atributos para a entidade: {entidade}")
