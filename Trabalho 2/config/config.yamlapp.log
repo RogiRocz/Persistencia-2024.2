@@ -1,0 +1,8 @@
+2025-01-23 13:31:30,494 - INFO - Configurações carregadas com sucesso.
+2025-01-23 13:31:40,187 - INFO - Iniciando a requisição: GET - http://localhost:8000/produtos/
+2025-01-23 13:31:40,350 - INFO - Requisição concluída: GET - http://localhost:8000/produtos/ = Status: 200
+2025-01-23 13:31:52,096 - INFO - Configurações carregadas com sucesso.
+2025-01-23 13:32:03,932 - INFO - Configurações carregadas com sucesso.
+2025-01-23 13:32:22,566 - INFO - Configurações carregadas com sucesso.
+2025-01-23 13:32:37,618 - INFO - Configurações carregadas com sucesso.
+2025-01-23 13:32:47,087 - INFO - Configurações carregadas com sucesso.

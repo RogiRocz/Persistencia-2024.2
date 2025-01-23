@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, Numeric
+from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
+from sqlalchemy import Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -34,18 +35,22 @@ class Vendas(Base):
     produtos = relationship("Produtos", back_populates="vendas")
     clientes = relationship("Clientes", back_populates="vendas")
 
+fornecedores_estoque = Table(
+    'fonecedores_estoque', Base.metadata,
+    Column('ID_Fornecedor', Integer, ForeignKey('fornecedores.ID_Fornecedor'), primary_key=True),
+    Column('ID_Estoque', Integer, ForeignKey('estoque.ID_Estoque'), primary_key=True)
+)
 
 class Fornecedores(Base):
     __tablename__ = "fornecedores"
     ID_Fornecedor = Column(Integer, primary_key=True)
-    cnpj = Column(String(14), nullable=False)
     nome = Column(String(50), nullable=False)
     ID_Produto = Column(Integer, ForeignKey("produtos.ID_Produto"), nullable=False)
     quantidade = Column(Integer, nullable=False)
     valor_unitario = Column(Numeric(10, 2), nullable=False)
 
     produtos = relationship("Produtos", back_populates="fornecedores")
-    estoque = relationship("Estoque", back_populates="fornecedores")
+    estoque = relationship("Estoque", secondary=fornecedores_estoque, back_populates="fornecedores")
 
 
 class Estoque(Base):
@@ -58,4 +63,4 @@ class Estoque(Base):
     validade_dias = Column(Integer, nullable=False)
 
     produtos = relationship("Produtos", back_populates="estoque")
-    fornecedores = relationship("Fornecedores", back_populates="estoque", uselist=True)
+    fornecedores = relationship("Fornecedores", secondary=fornecedores_estoque, back_populates="estoque")
