@@ -98,7 +98,6 @@ def quantidade_entidades(db: Session = Depends(get_db)):
 def get_atributos_especificos(entidade: str, request: Request, db: Session = Depends(get_db)):
     logger.info(f"Iniciando consulta de atributos para a entidade: {entidade}")
     
-    # Mapeamento de entidades para modelos
     entidade_modelo = {
         "produtos": Produtos,
         "clientes": Clientes,
@@ -107,7 +106,6 @@ def get_atributos_especificos(entidade: str, request: Request, db: Session = Dep
         "estoque": Estoque
     }.get(entidade.lower())
     
-    # Verifica se a entidade é válida
     if not entidade_modelo:
         logger.error(f"Entidade inválida: {entidade}")
         raise HTTPException(
@@ -116,16 +114,11 @@ def get_atributos_especificos(entidade: str, request: Request, db: Session = Dep
         )
     
     try:
-        # Cria a query baseada no modelo da entidade
         query = db.query(entidade_modelo)
         
-        # Obtém os parâmetros de consulta da requisição
         filtros = request.query_params
         
-        # Aplica os filtros passados como parâmetros
         for key, value in filtros.items():
-            if key == "entidade":
-                continue  # Ignora o parâmetro 'entidade', pois ele já foi processado
             if hasattr(entidade_modelo, key):
                 query = query.filter(getattr(entidade_modelo, key) == value)
             else:
@@ -135,10 +128,8 @@ def get_atributos_especificos(entidade: str, request: Request, db: Session = Dep
                     detail=f"Atributo '{key}' não existe na entidade '{entidade}'."
                 )
         
-        # Executa a consulta
         resultado = query.all()
         
-        # Verifica se há resultados
         if not resultado:
             logger.warning(f"Nenhum resultado encontrado para a entidade '{entidade}' com os filtros fornecidos.")
             raise HTTPException(
