@@ -1,0 +1,32 @@
+[
+    {
+        "Nome": "Fornecedor Alimentos LTDA",
+        "ID_Produto": 1,
+        "Quantidade": 100,
+        "Valor_Unitario": 20.00
+    },
+    {
+        "Nome": "Distribuidora Central",
+        "ID_Produto": 2,
+        "Quantidade": 200,
+        "Valor_Unitario": 6.00
+    },
+    {
+        "Nome": "Óleos e Cia",
+        "ID_Produto": 4,
+        "Quantidade": 150,
+        "Valor_Unitario": 7.50
+    },
+    {
+        "Nome": "Grãos & Companhia",
+        "ID_Produto": 3,
+        "Quantidade": 300,
+        "Valor_Unitario": 3.80
+    },
+    {
+        "Nome": "Açúcar Doce",
+        "ID_Produto": 5,
+        "Quantidade": 250,
+        "Valor_Unitario": 4.50
+    }
+]

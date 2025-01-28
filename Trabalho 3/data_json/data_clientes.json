@@ -1,0 +1,8 @@
+[
+    {"Forma_Pagamento": "Cartão de Crédito", "Programa_Fidelidade": "123.456.789-01" },
+    {"Forma_Pagamento": "Dinheiro", "Programa_Fidelidade": null },
+    {"Forma_Pagamento": "Pix", "Programa_Fidelidade": "987.654.321-00" },
+    {"Forma_Pagamento": "Dinheiro", "Programa_Fidelidade": null },
+    {"Forma_Pagamento": "Cartão de Débito", "Programa_Fidelidade": "456.123.789-99" }
+]
+  
