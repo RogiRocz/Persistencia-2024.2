@@ -5,7 +5,7 @@ from decimal import Decimal
 
 class Produtos(Model):
     nome: str
-    valor_unitario: Decimal = Field(ge=0.00)
+    valor_unitario: Decimal = Field(ge=0.00, description='O valor_unitario tem que ser positivo')
     
 class Cliente(Model):
     forma_pagamento: str
@@ -13,7 +13,7 @@ class Cliente(Model):
     
 class ItemVenda(Model):
     produto: Produtos = Reference(key_name='id_produto')
-    quantidade: int = Field(ge=0)
+    quantidade: int = Field(ge=0, description='A quantidade tem que ser positiva')
     
 class Vendas(Model):
     cliente: Cliente = Reference(key_name='id_cliente')
