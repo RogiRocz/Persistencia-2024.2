@@ -1,0 +1,12 @@
+logging:
+    file: "app.log"
+    level: "INFO"
+    format: "%(asctime)s - %(levelname)s - %(message)s"
+    filemode: "w"
+
+db-connect:
+    host: "localhost"
+    port: "27017"
+    user: ""
+    password: ""
+    db: "Trabalho_03"
