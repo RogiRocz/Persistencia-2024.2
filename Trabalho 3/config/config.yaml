@@ -10,3 +10,16 @@ db-connect:
     user: ""
     password: ""
     db: "Trabalho_03"
+
+db-populate:
+    folder: "data_json"
+    data_names:
+        [
+            "data_produtos",
+            "data_clientes",
+            "data_fornecedores",
+            "data_produtos_fornecidos",
+            "data_estoque",
+            "data_vendas",
+        ]
+    type_files: '.json'
