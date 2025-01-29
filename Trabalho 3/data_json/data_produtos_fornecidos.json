@@ -1,61 +1,61 @@
 [
   {
     "produto": "7891234567895",
-    "fornecedor": "Laticínios Aurora",
+    "fornecedor": "12.345.678/0001-90",
     "quantidade": 200,
     "custo_unidade": 5.50
   },
   {
     "produto": "7896541239876",
-    "fornecedor": "Laticínios Aurora",
+    "fornecedor": "12.345.678/0001-90",
     "quantidade": 150,
     "custo_unidade": 3.80
   },
   {
     "produto": "7893216549871",
-    "fornecedor": "Carnes Boi Forte",
+    "fornecedor": "98.765.432/0001-21",
     "quantidade": 100,
     "custo_unidade": 29.90
   },
   {
     "produto": "7894563216542",
-    "fornecedor": "Carnes Boi Forte",
+    "fornecedor": "98.765.432/0001-21",
     "quantidade": 120,
     "custo_unidade": 34.00
   },
   {
     "produto": "7897412589631",
-    "fornecedor": "Verduras e Legumes Naturais",
+    "fornecedor": "56.789.123/0001-32",
     "quantidade": 250,
     "custo_unidade": 2.50
   },
   {
     "produto": "7898523697415",
-    "fornecedor": "Verduras e Legumes Naturais",
+    "fornecedor": "56.789.123/0001-32",
     "quantidade": 300,
     "custo_unidade": 1.80
   },
   {
     "produto": "7899632581472",
-    "fornecedor": "Verduras e Legumes Naturais",
+    "fornecedor": "56.789.123/0001-32",
     "quantidade": 180,
     "custo_unidade": 3.20
   },
   {
     "produto": "7891597538462",
-    "fornecedor": "Bebidas Premium Brasil",
+    "fornecedor": "23.456.789/0001-43",
     "quantidade": 220,
     "custo_unidade": 15.00
   },
   {
     "produto": "7893571594821",
-    "fornecedor": "Bebidas Premium Brasil",
+    "fornecedor": "23.456.789/0001-43",
     "quantidade": 200,
     "custo_unidade": 7.80
   },
   {
     "produto": "7896549873215",
-    "fornecedor": "Bebidas Premium Brasil",
+    "fornecedor": "23.456.789/0001-43",
     "quantidade": 180,
     "custo_unidade": 12.50
   }
