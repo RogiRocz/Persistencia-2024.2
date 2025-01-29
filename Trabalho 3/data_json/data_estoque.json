@@ -1,72 +1,10 @@
 [
-    {
-        "ID_Produto": 1,
-        "ID_Fornecedor": 1,
-        "Quantidade": 1000,
-        "Categoria": "Bebidas",
-        "Validade_Dias": 730
-    },
-    {
-        "ID_Produto": 2,
-        "ID_Fornecedor": 1,
-        "Quantidade": 800,
-        "Categoria": "Frios e Laticínios",
-        "Validade_Dias": 30
-    },
-    {
-        "ID_Produto": 3,
-        "ID_Fornecedor": 2,
-        "Quantidade": 2000,
-        "Categoria": "Alimentos Básicos",
-        "Validade_Dias": 365
-    },
-    {
-        "ID_Produto": 4,
-        "ID_Fornecedor": 2,
-        "Quantidade": 1500,
-        "Categoria": "Snacks e Biscoitos",
-        "Validade_Dias": 180
-    },
-    {
-        "ID_Produto": 5,
-        "ID_Fornecedor": 3,
-        "Quantidade": 500,
-        "Categoria": "Doces e Sobremesas",
-        "Validade_Dias": 120
-    },
-    {
-        "ID_Produto": 1,
-        "ID_Fornecedor": 3,
-        "Quantidade": 700,
-        "Categoria": "Bebidas",
-        "Validade_Dias": 730
-    },
-    {
-        "ID_Produto": 2,
-        "ID_Fornecedor": 4,
-        "Quantidade": 1200,
-        "Categoria": "Frios e Laticínios",
-        "Validade_Dias": 25
-    },
-    {
-        "ID_Produto": 3,
-        "ID_Fornecedor": 4,
-        "Quantidade": 2500,
-        "Categoria": "Alimentos Básicos",
-        "Validade_Dias": 365
-    },
-    {
-        "ID_Produto": 4,
-        "ID_Fornecedor": 5,
-        "Quantidade": 1000,
-        "Categoria": "Snacks e Biscoitos",
-        "Validade_Dias": 150
-    },
-    {
-        "ID_Produto": 5,
-        "ID_Fornecedor": 5,
-        "Quantidade": 400,
-        "Categoria": "Doces e Sobremesas",
-        "Validade_Dias": 100
-    }
+    { "produto": "Arroz 5kg", "quantidade": 100, "validade_dias": 180 },
+    { "produto": "Feijão 1kg", "quantidade": 80, "validade_dias": 150 },
+    { "produto": "Óleo de Soja 900ml", "quantidade": 120, "validade_dias": 365 },
+    { "produto": "Macarrão 500g", "quantidade": 50, "validade_dias": 200 },
+    { "produto": "Leite Integral 1L", "quantidade": 90, "validade_dias": 30 },
+    { "produto": "Sabonete 90g", "quantidade": 300, "validade_dias": 720 },
+    { "produto": "Detergente 500ml", "quantidade": 200, "validade_dias": 540 }
 ]
+  

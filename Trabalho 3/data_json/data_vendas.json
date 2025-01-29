@@ -1,23 +1,55 @@
 [
-    {"ID_Produto": 1, "ID_Cliente": 1, "Quantidade": 2, "Valor_Total": 49.80 },
-    {"ID_Produto": 2, "ID_Cliente": 1, "Quantidade": 1, "Valor_Total": 7.50 },
-    {"ID_Produto": 3, "ID_Cliente": 1, "Quantidade": 3, "Valor_Total": 12.90 },
-    {"ID_Produto": 4, "ID_Cliente": 2, "Quantidade": 1, "Valor_Total": 8.70 },
-    {"ID_Produto": 5, "ID_Cliente": 2, "Quantidade": 2, "Valor_Total": 10.40 },
-    {"ID_Produto": 1, "ID_Cliente": 3, "Quantidade": 4, "Valor_Total": 99.60 },
-    {"ID_Produto": 3, "ID_Cliente": 3, "Quantidade": 1, "Valor_Total": 4.30 },
-    {"ID_Produto": 4, "ID_Cliente": 3, "Quantidade": 2, "Valor_Total": 17.40 },
-    {"ID_Produto": 2, "ID_Cliente": 4, "Quantidade": 3, "Valor_Total": 22.50 },
-    {"ID_Produto": 5, "ID_Cliente": 4, "Quantidade": 1, "Valor_Total": 5.20 },
-    {"ID_Produto": 1, "ID_Cliente": 5, "Quantidade": 1, "Valor_Total": 24.90 },
-    {"ID_Produto": 2, "ID_Cliente": 5, "Quantidade": 5, "Valor_Total": 37.50 },
-    {"ID_Produto": 4, "ID_Cliente": 1, "Quantidade": 3, "Valor_Total": 26.10 },
-    {"ID_Produto": 5, "ID_Cliente": 2, "Quantidade": 4, "Valor_Total": 20.80 },
-    {"ID_Produto": 3, "ID_Cliente": 4, "Quantidade": 2, "Valor_Total": 8.60 },
-    {"ID_Produto": 1, "ID_Cliente": 4, "Quantidade": 1, "Valor_Total": 24.90 },
-    {"ID_Produto": 4, "ID_Cliente": 5, "Quantidade": 2, "Valor_Total": 17.40 },
-    {"ID_Produto": 2, "ID_Cliente": 3, "Quantidade": 4, "Valor_Total": 30.00 },
-    {"ID_Produto": 5, "ID_Cliente": 1, "Quantidade": 3, "Valor_Total": 15.60 },
-    {"ID_Produto": 3, "ID_Cliente": 2, "Quantidade": 6, "Valor_Total": 25.80 }
-  ]
-  
+  {
+    "cliente": "123.456.789-00",
+    "produtos": [
+      { "produto": "Arroz 5kg", "quantidade": 2 },
+      { "produto": "Feijão 1kg", "quantidade": 3 },
+      { "produto": "Óleo de Soja 900ml", "quantidade": 1 },
+      { "produto": "Café 500g", "quantidade": 2 }
+    ],
+    "valor_total": 125.29
+  },
+  {
+    "cliente": "987.654.321-00",
+    "produtos": [
+      { "produto": "Macarrão 500g", "quantidade": 5 },
+      { "produto": "Leite Integral 1L", "quantidade": 3 },
+      { "produto": "Açúcar 1kg", "quantidade": 4 },
+      { "produto": "Detergente 500ml", "quantidade": 2 }
+    ],
+    "valor_total": 64.65
+  },
+  {
+    "cliente": "456.789.123-00",
+    "produtos": [
+      { "produto": "Leite Integral 1L", "quantidade": 5 },
+      { "produto": "Café 500g", "quantidade": 2 },
+      { "produto": "Farinha de Trigo 1kg", "quantidade": 3 },
+      { "produto": "Sabonete 90g", "quantidade": 4 }
+    ],
+    "valor_total": 102.95
+  },
+  {
+    "cliente": "789.123.456-00",
+    "produtos": [
+      { "produto": "Sabonete 90g", "quantidade": 4 },
+      { "produto": "Detergente 500ml", "quantidade": 3 },
+      { "produto": "Açúcar 1kg", "quantidade": 2 },
+      { "produto": "Macarrão 500g", "quantidade": 1 },
+      { "produto": "Óleo de Soja 900ml", "quantidade": 1 }
+    ],
+    "valor_total": 36.92
+  },
+  {
+    "cliente": "321.654.987-00",
+    "produtos": [
+      { "produto": "Arroz 5kg", "quantidade": 3 },
+      { "produto": "Feijão 1kg", "quantidade": 5 },
+      { "produto": "Leite Integral 1L", "quantidade": 2 },
+      { "produto": "Café 500g", "quantidade": 1 },
+      { "produto": "Farinha de Trigo 1kg", "quantidade": 4 },
+      { "produto": "Sabonete 90g", "quantidade": 3 }
+    ],
+    "valor_total": 185.90
+  }
+]

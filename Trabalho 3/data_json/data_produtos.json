@@ -1,23 +1,12 @@
 [
-    {
-      "Nome": "Arroz 5kg",
-      "Valor_Unitario": 24.90
-    },
-    {
-      "Nome": "Feijão 1kg",
-      "Valor_Unitario": 7.50
-    },
-    {
-      "Nome": "Macarrão Espaguete 500g",
-      "Valor_Unitario": 4.30
-    },
-    {
-      "Nome": "Óleo de Soja 900ml",
-      "Valor_Unitario": 8.70
-    },
-    {
-      "Nome": "Açúcar Refinado 1kg",
-      "Valor_Unitario": 5.20
-    }
+  { "nome": "Arroz 5kg", "valor_unitario": 25.99 },
+  { "nome": "Feijão 1kg", "valor_unitario": 7.49 },
+  { "nome": "Óleo de Soja 900ml", "valor_unitario": 8.99 },
+  { "nome": "Macarrão 500g", "valor_unitario": 4.29 },
+  { "nome": "Leite Integral 1L", "valor_unitario": 5.79 },
+  { "nome": "Açúcar 1kg", "valor_unitario": 3.49 },
+  { "nome": "Café 500g", "valor_unitario": 14.89 },
+  { "nome": "Farinha de Trigo 1kg", "valor_unitario": 6.29 },
+  { "nome": "Sabonete 90g", "valor_unitario": 2.79 },
+  { "nome": "Detergente 500ml", "valor_unitario": 3.99 }
 ]
-  

@@ -1,32 +1,5 @@
 [
-    {
-        "Nome": "Fornecedor Alimentos LTDA",
-        "ID_Produto": 1,
-        "Quantidade": 100,
-        "Valor_Unitario": 20.00
-    },
-    {
-        "Nome": "Distribuidora Central",
-        "ID_Produto": 2,
-        "Quantidade": 200,
-        "Valor_Unitario": 6.00
-    },
-    {
-        "Nome": "Óleos e Cia",
-        "ID_Produto": 4,
-        "Quantidade": 150,
-        "Valor_Unitario": 7.50
-    },
-    {
-        "Nome": "Grãos & Companhia",
-        "ID_Produto": 3,
-        "Quantidade": 300,
-        "Valor_Unitario": 3.80
-    },
-    {
-        "Nome": "Açúcar Doce",
-        "ID_Produto": 5,
-        "Quantidade": 250,
-        "Valor_Unitario": 4.50
-    }
-]
+    { "nome": "Fornecedor Alimentos LTDA", "cnpj": "12.345.678/0001-90", "endereco": "Rua das Indústrias, 123 - São Paulo" },
+    { "nome": "Distribuidora Bebidas SA", "cnpj": "98.765.432/0001-21", "endereco": "Avenida das Américas, 456 - Rio de Janeiro" },
+    { "nome": "Higiene e Limpeza Ltda", "cnpj": "33.222.111/0001-55", "endereco": "Rua da Limpeza, 789 - Curitiba" }
+]  

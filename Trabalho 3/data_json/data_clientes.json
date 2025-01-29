@@ -1,8 +1,8 @@
 [
-    {"Forma_Pagamento": "Cartão de Crédito", "Programa_Fidelidade": "123.456.789-01" },
-    {"Forma_Pagamento": "Dinheiro", "Programa_Fidelidade": null },
-    {"Forma_Pagamento": "Pix", "Programa_Fidelidade": "987.654.321-00" },
-    {"Forma_Pagamento": "Dinheiro", "Programa_Fidelidade": null },
-    {"Forma_Pagamento": "Cartão de Débito", "Programa_Fidelidade": "456.123.789-99" }
+    { "forma_pagamento": "Cartão de Crédito", "programa_fidelidade": "123.456.789-00" },
+    { "forma_pagamento": "Dinheiro", "programa_fidelidade": "987.654.321-00" },
+    { "forma_pagamento": "PIX", "programa_fidelidade": "456.789.123-00" },
+    { "forma_pagamento": "Cartão de Débito", "programa_fidelidade": "789.123.456-00" },
+    { "forma_pagamento": "Boleto", "programa_fidelidade": "321.654.987-00" }
 ]
   
