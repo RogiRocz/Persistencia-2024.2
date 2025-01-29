@@ -1,5 +1,5 @@
-from odmantic import AIOEngine
 from motor.motor_asyncio import AsyncIOMotorClient
+from odmantic import AIOEngine
 import models
 import yaml
 import json
@@ -96,7 +96,7 @@ async def create_vendas(file):
     data = get_data(file)
     input = []
     
-    for venda in data:        
+    for venda in data:
         produtos_ref = []
         cliente_ref = object
                 
@@ -104,6 +104,9 @@ async def create_vendas(file):
         for produto in venda['produtos']:
             p_ref = await db.find_one(models.Produtos, models.Produtos.codigo_barras == produto['codigo_barras'])
             produtos_ref.append(p_ref)
+            
+        element = models.Vendas(cliente=cliente_ref, produtos=produtos_ref)
+        input.append(element)
     
     await db.save_all(input)
 
@@ -130,4 +133,6 @@ def popular_db():
                 create_vendas(file)
         except Exception as e:
             print(f'Error ao inserir os dados do arquivo {name}. Erro: {e}')
-        
+
+if __name__ == '__main__':
+    popular_db()
