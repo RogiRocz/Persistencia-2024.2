@@ -4,6 +4,7 @@ from pydantic import field_validator
 from decimal import Decimal
 
 class Produtos(Model):
+    codigo_barras: str = Field(unique=True, description='O código de barras é único para prdouto')
     nome: str
     valor_unitario: Decimal = Field(ge=0.00, description='O valor_unitario tem que ser positivo')
     
