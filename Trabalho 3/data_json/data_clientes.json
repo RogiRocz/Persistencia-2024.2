@@ -3,6 +3,6 @@
     { "forma_pagamento": "Dinheiro", "programa_fidelidade": "987.654.321-00" },
     { "forma_pagamento": "PIX", "programa_fidelidade": "456.789.123-00" },
     { "forma_pagamento": "Cartão de Débito", "programa_fidelidade": "789.123.456-00" },
-    { "forma_pagamento": "Boleto", "programa_fidelidade": "321.654.987-00" }
+    { "forma_pagamento": "PIX", "programa_fidelidade": "321.654.987-00" }
 ]
   

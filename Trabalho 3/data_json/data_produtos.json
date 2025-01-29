@@ -1,12 +1,52 @@
 [
-  { "nome": "Arroz 5kg", "valor_unitario": 25.99 },
-  { "nome": "Feijão 1kg", "valor_unitario": 7.49 },
-  { "nome": "Óleo de Soja 900ml", "valor_unitario": 8.99 },
-  { "nome": "Macarrão 500g", "valor_unitario": 4.29 },
-  { "nome": "Leite Integral 1L", "valor_unitario": 5.79 },
-  { "nome": "Açúcar 1kg", "valor_unitario": 3.49 },
-  { "nome": "Café 500g", "valor_unitario": 14.89 },
-  { "nome": "Farinha de Trigo 1kg", "valor_unitario": 6.29 },
-  { "nome": "Sabonete 90g", "valor_unitario": 2.79 },
-  { "nome": "Detergente 500ml", "valor_unitario": 3.99 }
+  {
+    "nome": "Leite Integral",
+    "valor_unitario": 6.50,
+    "codigo_barras": "7891234567895"
+  },
+  {
+    "nome": "Queijo Mussarela",
+    "valor_unitario": 25.00,
+    "codigo_barras": "7896541239876"
+  },
+  {
+    "nome": "Alcatra Bovina",
+    "valor_unitario": 35.00,
+    "codigo_barras": "7893216549871"
+  },
+  {
+    "nome": "Frango Desossado",
+    "valor_unitario": 18.00,
+    "codigo_barras": "7894563216542"
+  },
+  {
+    "nome": "Alface Americana",
+    "valor_unitario": 4.00,
+    "codigo_barras": "7897412589631"
+  },
+  {
+    "nome": "Tomate Italiano",
+    "valor_unitario": 3.00,
+    "codigo_barras": "7898523697415"
+  },
+  {
+    "nome": "Batata Doce",
+    "valor_unitario": 2.80,
+    "codigo_barras": "7899632581472"
+  },
+  {
+    "nome": "Vinho Cabernet",
+    "valor_unitario": 45.00,
+    "codigo_barras": "7891597538462"
+  },
+  {
+    "nome": "Cerveja Artesanal",
+    "valor_unitario": 10.00,
+    "codigo_barras": "7893571594821"
+  },
+  {
+    "nome": "Refrigerante de Laranja",
+    "valor_unitario": 5.50,
+    "codigo_barras": "7896549873215"
+  }
 ]

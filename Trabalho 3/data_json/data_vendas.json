@@ -2,54 +2,161 @@
   {
     "cliente": "123.456.789-00",
     "produtos": [
-      { "produto": "Arroz 5kg", "quantidade": 2 },
-      { "produto": "Feijão 1kg", "quantidade": 3 },
-      { "produto": "Óleo de Soja 900ml", "quantidade": 1 },
-      { "produto": "Café 500g", "quantidade": 2 }
+      {
+        "produto": "7891234567895",
+        "quantidade": 2
+      },
+      {
+        "produto": "7893216549871",
+        "quantidade": 1
+      }
     ],
-    "valor_total": 125.29
+    "valor_total": 47.00
   },
   {
     "cliente": "987.654.321-00",
     "produtos": [
-      { "produto": "Macarrão 500g", "quantidade": 5 },
-      { "produto": "Leite Integral 1L", "quantidade": 3 },
-      { "produto": "Açúcar 1kg", "quantidade": 4 },
-      { "produto": "Detergente 500ml", "quantidade": 2 }
+      {
+        "produto": "7898523697415",
+        "quantidade": 3
+      },
+      {
+        "produto": "7896541239876",
+        "quantidade": 1
+      }
     ],
-    "valor_total": 64.65
+    "valor_total": 108.50
   },
   {
-    "cliente": "456.789.123-00",
+    "cliente": "123.456.789-00",
     "produtos": [
-      { "produto": "Leite Integral 1L", "quantidade": 5 },
-      { "produto": "Café 500g", "quantidade": 2 },
-      { "produto": "Farinha de Trigo 1kg", "quantidade": 3 },
-      { "produto": "Sabonete 90g", "quantidade": 4 }
+      {
+        "produto": "7897412589631",
+        "quantidade": 2
+      },
+      {
+        "produto": "7891597538462",
+        "quantidade": 1
+      }
     ],
-    "valor_total": 102.95
+    "valor_total": 74.00
   },
   {
-    "cliente": "789.123.456-00",
+    "cliente": "987.654.321-00",
     "produtos": [
-      { "produto": "Sabonete 90g", "quantidade": 4 },
-      { "produto": "Detergente 500ml", "quantidade": 3 },
-      { "produto": "Açúcar 1kg", "quantidade": 2 },
-      { "produto": "Macarrão 500g", "quantidade": 1 },
-      { "produto": "Óleo de Soja 900ml", "quantidade": 1 }
+      {
+        "produto": "7891234567895",
+        "quantidade": 1
+      },
+      {
+        "produto": "7896541239876",
+        "quantidade": 1
+      },
+      {
+        "produto": "7893216549871",
+        "quantidade": 2
+      },
+      {
+        "produto": "7894563216542",
+        "quantidade": 3
+      },
+      {
+        "produto": "7897412589631",
+        "quantidade": 4
+      }
     ],
-    "valor_total": 36.92
+    "valor_total": 119.50
   },
   {
-    "cliente": "321.654.987-00",
+    "cliente": "123.456.789-00",
     "produtos": [
-      { "produto": "Arroz 5kg", "quantidade": 3 },
-      { "produto": "Feijão 1kg", "quantidade": 5 },
-      { "produto": "Leite Integral 1L", "quantidade": 2 },
-      { "produto": "Café 500g", "quantidade": 1 },
-      { "produto": "Farinha de Trigo 1kg", "quantidade": 4 },
-      { "produto": "Sabonete 90g", "quantidade": 3 }
+      {
+        "produto": "7891234567895",
+        "quantidade": 5
+      },
+      {
+        "produto": "7896541239876",
+        "quantidade": 3
+      },
+      {
+        "produto": "7893216549871",
+        "quantidade": 4
+      },
+      {
+        "produto": "7894563216542",
+        "quantidade": 2
+      },
+      {
+        "produto": "7897412589631",
+        "quantidade": 6
+      },
+      {
+        "produto": "7898523697415",
+        "quantidade": 2
+      },
+      {
+        "produto": "7899632581472",
+        "quantidade": 1
+      },
+      {
+        "produto": "7891597538462",
+        "quantidade": 3
+      },
+      {
+        "produto": "7893571594821",
+        "quantidade": 4
+      },
+      {
+        "produto": "7896549873215",
+        "quantidade": 2
+      }
     ],
-    "valor_total": 185.90
+    "valor_total": 614.50
+  },
+  {
+    "cliente": "987.654.321-00",
+    "produtos": [
+      {
+        "produto": "7891234567895",
+        "quantidade": 6
+      },
+      {
+        "produto": "7896541239876",
+        "quantidade": 5
+      },
+      {
+        "produto": "7893216549871",
+        "quantidade": 3
+      },
+      {
+        "produto": "7894563216542",
+        "quantidade": 2
+      },
+      {
+        "produto": "7897412589631",
+        "quantidade": 8
+      },
+      {
+        "produto": "7898523697415",
+        "quantidade": 4
+      },
+      {
+        "produto": "7899632581472",
+        "quantidade": 5
+      },
+      {
+        "produto": "7891597538462",
+        "quantidade": 3
+      },
+      {
+        "produto": "7893571594821",
+        "quantidade": 7
+      },
+      {
+        "produto": "7896549873215",
+        "quantidade": 3
+      }
+    ],
+    "valor_total": 1003.00
   }
 ]

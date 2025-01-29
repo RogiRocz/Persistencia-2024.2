@@ -1,10 +1,83 @@
 [
-    { "produto": "Arroz 5kg", "quantidade": 100, "validade_dias": 180 },
-    { "produto": "Feijão 1kg", "quantidade": 80, "validade_dias": 150 },
-    { "produto": "Óleo de Soja 900ml", "quantidade": 120, "validade_dias": 365 },
-    { "produto": "Macarrão 500g", "quantidade": 50, "validade_dias": 200 },
-    { "produto": "Leite Integral 1L", "quantidade": 90, "validade_dias": 30 },
-    { "produto": "Sabonete 90g", "quantidade": 300, "validade_dias": 720 },
-    { "produto": "Detergente 500ml", "quantidade": 200, "validade_dias": 540 }
-]
+    {
+      "produto": "7891234567895",
+      "fornecedores": [
+        "Laticínios Aurora"
+      ],
+      "quantidade": 200,
+      "validade_dias": 15
+    },
+    {
+      "produto": "7896541239876",
+      "fornecedores": [
+        "Laticínios Aurora"
+      ],
+      "quantidade": 150,
+      "validade_dias": 30
+    },
+    {
+      "produto": "7893216549871",
+      "fornecedores": [
+        "Carnes Boi Forte"
+      ],
+      "quantidade": 100,
+      "validade_dias": 10
+    },
+    {
+      "produto": "7894563216542",
+      "fornecedores": [
+        "Carnes Boi Forte"
+      ],
+      "quantidade": 120,
+      "validade_dias": 7
+    },
+    {
+      "produto": "7897412589631",
+      "fornecedores": [
+        "Verduras e Legumes Naturais"
+      ],
+      "quantidade": 250,
+      "validade_dias": 5
+    },
+    {
+      "produto": "7898523697415",
+      "fornecedores": [
+        "Verduras e Legumes Naturais"
+      ],
+      "quantidade": 300,
+      "validade_dias": 10
+    },
+    {
+      "produto": "7899632581472",
+      "fornecedores": [
+        "Verduras e Legumes Naturais"
+      ],
+      "quantidade": 180,
+      "validade_dias": 12
+    },
+    {
+      "produto": "7891597538462",
+      "fornecedores": [
+        "Bebidas Premium Brasil"
+      ],
+      "quantidade": 220,
+      "validade_dias": 365
+    },
+    {
+      "produto": "7893571594821",
+      "fornecedores": [
+        "Bebidas Premium Brasil"
+      ],
+      "quantidade": 200,
+      "validade_dias": 180
+    },
+    {
+      "produto": "7896549873215",
+      "fornecedores": [
+        "Bebidas Premium Brasil"
+      ],
+      "quantidade": 180,
+      "validade_dias": 365
+    }
+  ]
   

@@ -1,5 +1,22 @@
 [
-    { "nome": "Fornecedor Alimentos LTDA", "cnpj": "12.345.678/0001-90", "endereco": "Rua das Indústrias, 123 - São Paulo" },
-    { "nome": "Distribuidora Bebidas SA", "cnpj": "98.765.432/0001-21", "endereco": "Avenida das Américas, 456 - Rio de Janeiro" },
-    { "nome": "Higiene e Limpeza Ltda", "cnpj": "33.222.111/0001-55", "endereco": "Rua da Limpeza, 789 - Curitiba" }
+    {
+      "nome": "Laticínios Aurora",
+      "cnpj": "12.345.678/0001-90",
+      "endereco": "Rua das Vacas, 100 - São Paulo, SP"
+    },
+    {
+      "nome": "Carnes Boi Forte",
+      "cnpj": "98.765.432/0001-21",
+      "endereco": "Avenida do Frigorífico, 250 - Rio de Janeiro, RJ"
+    },
+    {
+      "nome": "Verduras e Legumes Naturais",
+      "cnpj": "56.789.123/0001-32",
+      "endereco": "Estrada das Hortaliças, 400 - Belo Horizonte, MG"
+    },
+    {
+      "nome": "Bebidas Premium Brasil",
+      "cnpj": "23.456.789/0001-43",
+      "endereco": "Travessa das Vinícolas, 50 - Curitiba, PR"
+    }
 ]  
