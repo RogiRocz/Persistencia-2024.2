@@ -1,0 +1,10 @@
+[
+    { "produto": "Arroz 5kg", "fornecedor": "Fornecedor Alimentos LTDA", "quantidade": 500, "custo_unidade": 20.50 },
+    { "produto": "Feijão 1kg", "fornecedor": "Fornecedor Alimentos LTDA", "quantidade": 300, "custo_unidade": 5.50 },
+    { "produto": "Óleo de Soja 900ml", "fornecedor": "Distribuidora Bebidas SA", "quantidade": 400, "custo_unidade": 7.80 },
+    { "produto": "Macarrão 500g", "fornecedor": "Fornecedor Alimentos LTDA", "quantidade": 200, "custo_unidade": 3.50 },
+    { "produto": "Leite Integral 1L", "fornecedor": "Distribuidora Bebidas SA", "quantidade": 600, "custo_unidade": 4.99 },
+    { "produto": "Sabonete 90g", "fornecedor": "Higiene e Limpeza Ltda", "quantidade": 800, "custo_unidade": 2.00 },
+    { "produto": "Detergente 500ml", "fornecedor": "Higiene e Limpeza Ltda", "quantidade": 700, "custo_unidade": 3.00 }
+]
+  
