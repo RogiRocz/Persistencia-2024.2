@@ -38,7 +38,7 @@ async def create_produtos(file):
     input = []
     
     for produto in data:
-        element = models.Produtos(nome=produto['nome'], valor_unitario=str(produto['valor_unitario']), codigo_barras=produto['codigo_barras'])
+        element = models.Produtos(nome=produto['nome'], valor_unitario=produto['valor_unitario'], codigo_barras=produto['codigo_barras'])
         input.append(element)
     
     await db.save_all(input)
@@ -70,22 +70,19 @@ async def create_produtos_fornecidos(file):
     data = get_data(file)
     input = []
     
-    for pf in data:        
+    for pf in data:
         produto_ref = await db.find_one(models.Produtos, models.Produtos.codigo_barras == pf['produto'])
-        if not produto_ref:
-            print(f'create_produtos_fornecidos - Produto não encontrado: {pf['produto']}')
+        if produto_ref is None:
             continue
-        if not pf['custo_unidade']:
-            print(f'create_produtos_fornecidos - O custo_unidade é nulo: {pf['produto']}')
-            continue
-        fornecedor_ref = await db.find_one(models.Fornecedores, models.Fornecedores.cnpj == pf['fornecedor'])
-        if not fornecedor_ref:
-            print(f'create_produtos_fornecidos - Fornecedor não encontrado: {pf['fornecedor']}')
+        if pf['custo_unidade'] is None:
             continue
         
-        if produto_ref and fornecedor_ref and pf['custo_unidade']:
-            element = models.ProdutosFornecidos(produto=produto_ref, fornecedor=fornecedor_ref, quantidade=pf['quantidade'], custo_unidade=str(pf['custo_unidade']))
-            input.append(element)
+        fornecedor_ref = await db.find_one(models.Fornecedores, models.Fornecedores.cnpj == pf['fornecedor'])
+        if not fornecedor_ref:
+            continue
+        
+        element = models.ProdutosFornecidos(produto=produto_ref, fornecedor=fornecedor_ref, quantidade=pf['quantidade'], custo_unidade=pf['custo_unidade'])
+        input.append(element)
     
     await db.save_all(input)
     
@@ -96,7 +93,7 @@ async def create_estoque(file):
     
     for estoque in data:        
         produto_ref = await db.find_one(models.Produtos, models.Produtos.codigo_barras == estoque['produto'])
-        if not produto_ref:
+        if produto_ref is None:
             print(f'create_estoque - Produto não encontrado: {estoque['produto']}')
             continue
         else:
@@ -112,30 +109,36 @@ async def create_vendas(file):
     
     for venda in data:
         produtos_ref = []
-        cliente_ref = object
-                
-        cliente_ref = await db.find_one(models.Clientes, models.Clientes.programa_fidelidade == venda['cliente'])
+        cliente_ref = None
+        
+        if venda['cliente'] is not None and venda['cliente'] != '':
+            cliente_ref = await db.find_one(models.Clientes, models.Clientes.programa_fidelidade == venda['cliente'])
+            if cliente_ref.forma_pagamento != venda['forma_pagamento']:
+                cliente_ref.forma_pagamento = venda['forma_pagamento']
+        else:
+            cliente_ref = models.Clientes(programa_fidelidade=None, forma_pagamento=venda['forma_pagamento'])
         for produto in venda['produtos']:
             p_ref = await db.find_one(models.Produtos, models.Produtos.codigo_barras == produto['produto'])
-            if not p_ref:
+            if p_ref is None:
                 print(f'create_vendas - Produto não encontrado: {produto['produto']}')
                 continue
-            elif not p_ref.valor_unitario:
-                print(f'create_vendas - O valor_unitario é nulo: {produto['produto']}')
-                continue
-            else:
-                item_venda = models.ItemVenda(produto=p_ref, quantidade=produto['quantidade'])
-                produtos_ref.append(item_venda)
+            
+            item_venda = models.ItemVenda(produto=p_ref, quantidade=produto['quantidade'])
+            produtos_ref.append(item_venda)
+            
+        valor_t = 0
+        for item in produtos_ref:
+            produto = item.produto
+            valor_un = produto.valor_unitario
+            qntd = item.quantidade
+            valor_t += valor_un * qntd
+        print(f'Valor total: {valor_t}')
         
-        if cliente_ref:
-            element = models.Vendas(cliente=cliente_ref, produtos=produtos_ref)
-            element.valor_total = element.calcular_valor_total()
-            input.append(element)
-            await db.save_all(input)
-        else:
-            print(f'create_vendas - Clientes não encontrado: {cliente_ref}')
+        element = models.Vendas(cliente=cliente_ref, produtos=produtos_ref, valor_total=valor_t)
+        input.append(element)
+            
+    await db.save_all(input)
     
-
 async def popular_db():
     config = get_yaml_config()
     db_populate = config['db-populate']
