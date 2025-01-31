@@ -2,7 +2,7 @@
     {
       "produto": "7891234567895",
       "fornecedores": [
-        "Laticínios Aurora"
+        "12.345.678/0001-90"
       ],
       "quantidade": 200,
       "validade_dias": 15
@@ -10,7 +10,7 @@
     {
       "produto": "7896541239876",
       "fornecedores": [
-        "Laticínios Aurora"
+        "12.345.678/0001-90"
       ],
       "quantidade": 150,
       "validade_dias": 30
@@ -18,7 +18,7 @@
     {
       "produto": "7893216549871",
       "fornecedores": [
-        "Carnes Boi Forte"
+        "98.765.432/0001-21"
       ],
       "quantidade": 100,
       "validade_dias": 10
@@ -26,7 +26,7 @@
     {
       "produto": "7894563216542",
       "fornecedores": [
-        "Carnes Boi Forte"
+        "98.765.432/0001-21"
       ],
       "quantidade": 120,
       "validade_dias": 7
@@ -34,7 +34,7 @@
     {
       "produto": "7897412589631",
       "fornecedores": [
-        "Verduras e Legumes Naturais"
+        "56.789.123/0001-32"
       ],
       "quantidade": 250,
       "validade_dias": 5
@@ -42,7 +42,7 @@
     {
       "produto": "7898523697415",
       "fornecedores": [
-        "Verduras e Legumes Naturais"
+        "56.789.123/0001-32"
       ],
       "quantidade": 300,
       "validade_dias": 10
@@ -50,7 +50,7 @@
     {
       "produto": "7899632581472",
       "fornecedores": [
-        "Verduras e Legumes Naturais"
+        "56.789.123/0001-32"
       ],
       "quantidade": 180,
       "validade_dias": 12
@@ -58,7 +58,7 @@
     {
       "produto": "7891597538462",
       "fornecedores": [
-        "Bebidas Premium Brasil"
+        "23.456.789/0001-43"
       ],
       "quantidade": 220,
       "validade_dias": 365
@@ -66,7 +66,7 @@
     {
       "produto": "7893571594821",
       "fornecedores": [
-        "Bebidas Premium Brasil"
+        "23.456.789/0001-43"
       ],
       "quantidade": 200,
       "validade_dias": 180
@@ -74,7 +74,7 @@
     {
       "produto": "7896549873215",
       "fornecedores": [
-        "Bebidas Premium Brasil"
+        "23.456.789/0001-43"
       ],
       "quantidade": 180,
       "validade_dias": 365
