@@ -1,6 +1,7 @@
 [
   {
     "cliente": "123.456.789-00",
+    "forma_pagamento": "Cartão de Crédito",
     "produtos": [
       {
         "produto": "7891234567895",
@@ -15,6 +16,7 @@
   },
   {
     "cliente": "987.654.321-00",
+    "forma_pagamento": "Pix",
     "produtos": [
       {
         "produto": "7898523697415",
@@ -29,6 +31,7 @@
   },
   {
     "cliente": "123.456.789-00",
+    "forma_pagamento": "Dinheiro",
     "produtos": [
       {
         "produto": "7897412589631",
@@ -43,6 +46,7 @@
   },
   {
     "cliente": "987.654.321-00",
+    "forma_pagamento": "Cartão de Débito",
     "produtos": [
       {
         "produto": "7891234567895",
@@ -69,6 +73,7 @@
   },
   {
     "cliente": "123.456.789-00",
+    "forma_pagamento": "Cartão de Crédito",
     "produtos": [
       {
         "produto": "7891234567895",
@@ -115,6 +120,7 @@
   },
   {
     "cliente": "987.654.321-00",
+    "forma_pagamento": "Pix",
     "produtos": [
       {
         "produto": "7891234567895",
