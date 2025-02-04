@@ -11,13 +11,6 @@ client = AsyncIOMotorClient(uri)
 database = 'Trabalho_03'
 engine = AIOEngine(client=client, database=database)
 
-def get_db():
-    session = engine.session()
-    try:
-        yield session
-    finally:
-        session.end()
-
 def curr_dir():
     return os.path.abspath(os.path.dirname(__file__))
 
@@ -132,7 +125,6 @@ async def create_vendas(file):
             valor_un = produto.valor_unitario
             qntd = item.quantidade
             valor_t += valor_un * qntd
-        print(f'Valor total: {valor_t}')
         
         element = models.Vendas(cliente=cliente_ref, produtos=produtos_ref, valor_total=valor_t)
         input.append(element)
