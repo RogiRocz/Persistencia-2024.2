@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Clientes
+from pagination import PaginationParams
 from typing import List, Optional
 from bson import ObjectId
 from http import HTTPStatus
@@ -27,6 +28,24 @@ def router_clientes():
         ]
         
         return response
+    
+    @router.get('/pagination', response_model=List[ClientesPy])
+    async def get_all_clientes_pagination(pag: PaginationParams):
+        ultimo_id = pag.ultimo_id
+        if ultimo_id is None:
+            ultimo_id = await db.find_one(Clientes, sort=Clientes.id)
+            
+        result_clientes = await db.find(Clientes, Clientes.id > ObjectId(ultimo_id), limit=pag.tamanho)
+        
+        return [
+            ClientesPy(
+                id=str(cliente.id),
+                forma_pagamento=cliente.forma_pagamento,
+                programa_fidelidade=cliente.programa_fidelidade
+            )
+            for cliente in result_clientes
+        ]
+            
         
     @router.post('/', response_model=ClientesPy)
     async def post_cliente(cliente: ClientesPy):

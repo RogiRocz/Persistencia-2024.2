@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from db_connect import engine as db
 from models import Produtos
 from typing import List, Optional
+from pagination import PaginationParams
 from bson import ObjectId
 from http import HTTPStatus
 
@@ -30,6 +31,22 @@ def router_produtos():
         ]
         
         return response
+    
+    @router.get('/pagination', response_model=List[ProdutoPy])
+    async def get_all_produtos_pagination(pag: PaginationParams):
+        ultimo_id = pag.ultimo_id
+        if ultimo_id is None:
+            ultimo_id = await db.find_one(Produtos, sort=Produtos.id)
+        
+        result_produtos = await db.find(Produtos, Produtos.id > ObjectId(ultimo_id), limit=pag.tamanho)
+        
+        return [ProdutoPy(
+            id=str(produto.id),
+            nome=produto.nome,
+            codigo_barras=produto.codigo_barras,
+            valor_unitario=produto.valor_unitario
+        ) for produto in result_produtos]
+        
 
     @router.post('/', response_model=ProdutoPy)
     async def post_produto(produto: ProdutoPy):

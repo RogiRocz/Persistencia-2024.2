@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Fornecedores
+from pagination import PaginationParams
 from typing import List, Optional
 from bson import ObjectId
 from http import HTTPStatus
@@ -27,6 +28,14 @@ def router_fornecedores():
                 endereco=fornecedor.endereco
             )for fornecedor in fornecedores
         ]
+    
+    @router.get('/pagination', response_model=List[FornecedoresPy])
+    async def get_all_fornecedores_pagination(pag: PaginationParams):
+        ultimo_id = pag.ultimo_id
+        if ultimo_id is None:
+            ultimo_id = await db.find_one(Fornecedores, sort=Fornecedores.id)
+            
+        result_fornecedores = await db.find(Fornecedores, Fornecedores.id > )
         
     @router.post('/', response_model=FornecedoresPy)
     async def post_fornecedor(fornecedor: FornecedoresPy):
