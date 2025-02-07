@@ -35,7 +35,16 @@ def router_fornecedores():
         if ultimo_id is None:
             ultimo_id = await db.find_one(Fornecedores, sort=Fornecedores.id)
             
-        result_fornecedores = await db.find(Fornecedores, Fornecedores.id > )
+        result_fornecedores = await db.find(Fornecedores, Fornecedores.id > ObjectId(ultimo_id), limit=pag.tamanho)
+
+        return [
+            FornecedoresPy(
+                id=str(fornecedor.id),
+                nome=fornecedor.nome,
+                cnpj=fornecedor.cnpj,
+                endereco=fornecedor.endereco
+            ) for fornecedor in result_fornecedores
+        ]
         
     @router.post('/', response_model=FornecedoresPy)
     async def post_fornecedor(fornecedor: FornecedoresPy):
