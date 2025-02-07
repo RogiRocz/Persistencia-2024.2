@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Estoque, Produtos
+from pagination import PaginationParams
 from typing import List, Optional
 from bson import ObjectId
 from http import HTTPStatus
@@ -29,6 +30,23 @@ def router_estoque():
         ]
         
         return response
+    
+    router.get('/pagination', response_model=List[EstoquePy])
+    async def get_all_estoque_pagination(pag: PaginationParams):
+        ultimo_id = pag.ultimo_id
+        if ultimo_id is None:
+            ultimo_id = await db.find_one(Estoque, sort=Estoque.id)
+        
+        result_estoque = await db.find(Estoque, Estoque.id > ObjectId(ultimo_id), limit=pag.tamanho)
+
+        return [
+            EstoquePy(
+                id=str(estoque.id),
+                produto=estoque.produto,
+                quantidade=estoque.quantidade,
+                validade_dias=estoque.validade_dias
+            ) for estoque in result_estoque
+        ]
         
     @router.post('/', response_model=EstoquePy)
     async def post_estoque(estoque: EstoquePy):
