@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Estoque, Produtos
@@ -46,6 +46,38 @@ def router_estoque():
                 quantidade=estoque.quantidade,
                 validade_dias=estoque.validade_dias
             ) for estoque in result_estoque
+        ]
+    
+    @router.get('/atributos', response_model=List[EstoquePy])
+    async def get_estoque_especifico(req: Request):
+        atributos = req.query_params
+            
+        filtros = {}
+        
+        for chave, valor in atributos.items():
+            if chave in Estoque.model_fields:
+                tipo_chave = Estoque.model_fields[chave].annotation
+                try:
+                    valor_convertido = tipo_chave(valor)
+                except (ValueError, TypeError):
+                    raise HTTPException(
+                        status_code=HTTPStatus.BAD_REQUEST, detail=f"Valor inválido para o atributo {chave}. Esperado: {tipo_chave}"
+                    )
+                
+                filtros[chave] = valor_convertido
+        
+        estoque = await db.find(Estoque, filtros)
+        
+        if not estoque:
+            raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Nenhum item de estoque encontrado com os filtros fornecidos')
+        
+        return [
+            EstoquePy(
+                id=str(e.id),
+                produto=str(e.produto.id),
+                quantidade=e.quantidade,
+                validade_dias=e.validade_dias
+            ) for e in estoque
         ]
         
     @router.post('/', response_model=EstoquePy)

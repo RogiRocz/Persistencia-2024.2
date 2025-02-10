@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Produtos
@@ -46,6 +46,37 @@ def router_produtos():
             codigo_barras=produto.codigo_barras,
             valor_unitario=produto.valor_unitario
         ) for produto in result_produtos]
+        
+    @router.get('/atributos', response_model=List[ProdutoPy])
+    async def get_produtos_especifico(req: Request):
+        atributos = req.query_params
+        
+        filtros = {}
+        
+        for chave, valor in atributos.items():
+            if chave in Produtos.model_fields:
+                tipo_chave = Produtos.model_fields[chave].annotation
+                try:
+                    valor_convertido = tipo_chave(valor)
+                except Exception:
+                    HTTPException(status_code=HTTPStatus.CONFLICT, detail=f'Valor inválido para o atributo {chave}. Esperado {tipo_chave}')
+                else:
+                    filtros[chave] = valor_convertido
+                
+                produtos = await db.find(Produtos, filtros)
+                
+                if not produtos:
+                    HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Nenhum produto encontrado com os filtros fornecidos')
+                    
+        return [
+            ProdutoPy(
+                id=str(p.id),
+                nome=p.nome,
+                codigo_barras=p.codigo_barras,
+                valor_unitario=p.valor_unitario
+            )for p in produtos
+        ]
+        
         
 
     @router.post('/', response_model=ProdutoPy)

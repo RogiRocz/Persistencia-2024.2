@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Clientes
@@ -45,7 +45,35 @@ def router_clientes():
             )
             for cliente in result_clientes
         ]
-            
+        
+    @router.get('/atribtuos', response_model=List[ClientesPy])
+    async def get_clientes_especificos(req: Request):
+        atributos = req.query_params
+        
+        filtros = {}
+        
+        for chave, valor in atributos.items():
+            if chave in Clientes.model_fields:
+                tipo_chave = Clientes.model_fields[chave].annotation
+                try:
+                    valor_convertido = tipo_chave(valor)
+                except Exception:
+                    HTTPException(status_code=HTTPStatus.CONFLICT, detail=f'Valor inválido para o atributo {chave}. Esperado {tipo_chave}')
+                else:
+                    filtros[chave] = valor_convertido
+                
+                clientes = await db.find(Clientes, filtros)
+                
+                if not clientes:
+                    HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Nenhum cliente encontrado com os filtros fornecidos')
+                
+            return [
+                ClientesPy(
+                    id=str(c.id),
+                    programa_fidelidade=c.programa_fidelidade,
+                    forma_pagamento=c.forma_pagamento
+                ) for c in clientes
+            ]
         
     @router.post('/', response_model=ClientesPy)
     async def post_cliente(cliente: ClientesPy):

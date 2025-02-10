@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Vendas, Clientes, Produtos, ItemVenda
@@ -55,6 +55,43 @@ def router_vendas():
                 produtos=venda.produtos,
                 valor_total=venda.valor_total
             ) for venda in result_vendas
+        ]
+    
+    @router.get('/atributos', response_model=List[VendasPy])
+    async def get_vendas_especifico(req: Request):
+        atributos = req.query_params
+            
+        filtros = {}
+        
+        for chave, valor in atributos.items():
+            if chave in Vendas.model_fields:
+                tipo_chave = Vendas.model_fields[chave].annotation
+                try:
+                    valor_convertido = tipo_chave(valor)
+                except (ValueError, TypeError):
+                    raise HTTPException(
+                        status_code=HTTPStatus.BAD_REQUEST, detail=f"Valor inválido para o atributo {chave}. Esperado: {tipo_chave}"
+                    )
+                
+                filtros[chave] = valor_convertido
+        
+        vendas = await db.find(Vendas, filtros)
+        
+        if not vendas:
+            raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Nenhuma venda encontrada com os filtros fornecidos')
+        
+        return [
+            VendasPy(
+                id=str(v.id),
+                cliente=str(v.cliente.id),
+                produtos=[
+                    ItemVendaPy(
+                        produto=str(item.produto.id),
+                        quantidade=item.quantidade
+                    ) for item in v.produtos
+                ],
+                valor_total=v.valor_total
+            ) for v in vendas
         ]
     
     @router.post('/', response_model=VendasPy)

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from db_connect import engine as db
 from models import Fornecedores
@@ -45,6 +45,36 @@ def router_fornecedores():
                 endereco=fornecedor.endereco
             ) for fornecedor in result_fornecedores
         ]
+        
+    @router.get('atributos', response_model=List[FornecedoresPy])
+    async def get_fornecedores_especificos(req: Request):
+        atributos = req.query_params
+        
+        filtros = {}
+        
+        for chave, valor in atributos.items():
+            if chave in Fornecedores.model_fields:
+                tipo_chave = Fornecedores.model_fields[chave].annotation
+                try:
+                    valor_convertido = tipo_chave(valor)
+                except Exception:
+                    HTTPException(status_code=HTTPStatus.CONFLICT, detail=f'Valor inválido para o atributo {chave}. Esperado {tipo_chave}')
+                else:
+                    filtros[chave] = valor_convertido
+                
+                fornecedores = await db.find(Fornecedores, filtros)
+                
+                if not fornecedores:
+                    HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Nenhum cliente encontrado com os filtros fornecidos')
+                
+            return [
+                FornecedoresPy(
+                    id=str(f.id),
+                    nome=f.nome,
+                    cnpj=f.cnpj,
+                    endereco=f.endereco
+                ) for f in fornecedores
+            ]
         
     @router.post('/', response_model=FornecedoresPy)
     async def post_fornecedor(fornecedor: FornecedoresPy):
