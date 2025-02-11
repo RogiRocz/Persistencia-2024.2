@@ -1,10 +1,11 @@
+from typing import List
 from fastapi import FastAPI, HTTPException, Request
-from .crud.crud_router_produtos import router_produtos, Produtos
-from .crud.crud_router_clientes import router_clientes, Clientes
-from .crud.crud_router_fornecedores import router_fornecedores, Fornecedores
-from .crud.crud_router_vendas import router_vendas, Vendas, ItemVenda
-from .crud.crud_router_pf import router_produtos_fornecidos, ProdutosFornecidos
-from .crud.crud_router_estoque import router_estoque, Estoque
+from .crud.crud_router_produtos import router_produtos, Produtos, ProdutoPy
+from .crud.crud_router_clientes import router_clientes, Clientes, ClientesPy
+from .crud.crud_router_fornecedores import router_fornecedores, Fornecedores, FornecedoresPy
+from .crud.crud_router_vendas import router_vendas, Vendas, ItemVenda, VendasPy, ItemVendaPy
+from .crud.crud_router_pf import router_produtos_fornecidos, ProdutosFornecidos, ProdutosFornecidosPy
+from .crud.crud_router_estoque import router_estoque, Estoque, EstoquePy
 from db_connect import engine as db, curr_dir, get_yaml_config
 import os
 import logging as log
@@ -162,3 +163,80 @@ async def get_clientes_valiosos():
         })
     
     return resultado
+
+@app.get('/vendas_valores_especificos', response_model=list, description='Recebe ao menos um valor para min ou max para filtrar o valor das vendas')
+async def get_vendas_valores_especificos(min: float = None, max: float = None):
+    resultado = []
+    
+    if min is None and max is None:
+        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail="Pelo menos um dos parâmetros 'min' ou 'max' deve ser fornecido.")
+    
+    if min is None and max:
+        vendas = await db.find(Vendas, Vendas.valor_total <= max)
+        for venda in vendas:
+            resultado.append({
+                    'id': str(venda.id),
+                    'cliente': str(venda.cliente.id),
+                    'produtos': [{
+                        'id_produto': str(item.produto.id),
+                        'quantidade': item.quantidade
+                    } for item in venda.produtos],
+                    'valor_total': venda.valor_total
+
+            })
+    
+    if max is None and min:
+        vendas = await db.find(Vendas, Vendas.valor_total >= min)
+        for venda in vendas:
+            resultado.append({
+                    'id': str(venda.id),
+                    'cliente': str(venda.cliente.id),
+                    'produtos': [{
+                        'id_produto': str(item.produto.id),
+                        'quantidade': item.quantidade
+                    } for item in venda.produtos],
+                    'valor_total': venda.valor_total
+
+            })
+            
+    if min and max:
+        vendas = await db.find(Vendas, Vendas.valor_total >= min & Vendas.valor_total <= max)
+        for venda in vendas:
+            resultado.append({
+                    'id': str(venda.id),
+                    'cliente': str(venda.cliente.id),
+                    'produtos': [{
+                        'id_produto': str(item.produto.id),
+                        'quantidade': item.quantidade
+                    } for item in venda.produtos],
+                    'valor_total': venda.valor_total
+
+            })
+        
+    
+    return resultado
+
+@app.get('/produtos/buscar', response_model=List[ProdutoPy])
+async def buscar_produto_por_nome(parte_do_nome: str):
+    if not parte_do_nome:
+        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail="O parâmetro 'parte_do_nome' é obrigatório.")
+    
+    filtro = {
+        "nome": {"$regex": f".*{parte_do_nome}.*", "$options": "i"}
+    }
+    
+    produtos = await db.find(Produtos, filtro)
+    
+    if not produtos:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Nenhum produto encontrado com o nome fornecido.")
+    
+    response = [
+        ProdutoPy(
+            id=str(produto.id),
+            nome=produto.nome,
+            codigo_barras=produto.codigo_barras,
+            valor_unitario=produto.valor_unitario
+        ) for produto in produtos
+    ]
+    
+    return response
