@@ -9,6 +9,7 @@ from db_connect import engine as db, curr_dir, get_yaml_config
 import os
 import logging as log
 from http import HTTPStatus
+from odmantic import ObjectId
 
 yaml = get_yaml_config()
 logging = yaml['logging']
@@ -82,3 +83,82 @@ async def retorna_qntd_entidades():
         })
         
         return resultado
+
+@app.get('/info_produto/{id_produto}', response_model=dict)
+async def get_info_produto(id_produto: str):
+    try:
+        object_id = ObjectId(id_produto)
+    except Exception:
+        raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID de produto inválido')
+    
+    prod = await db.find_one(Produtos, Produtos.id == object_id)
+    if prod is None:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Produto não encontrado')
+    
+    estocagem = await db.find(Estoque, Estoque.produto == prod)
+    
+    pf = await db.find(ProdutosFornecidos, ProdutosFornecidos.produto == prod)
+    
+    resultado = {
+        'produto': {
+            'id': str(prod.id),
+            'nome': prod.nome,
+            'codigo_barras': prod.codigo_barras,
+            'valor_unitario': prod.valor_unitario
+        },
+        'estoque': [
+            {
+                'quantidade': item.quantidade,
+                'validade_dias': item.validade_dias
+            } for item in estocagem
+        ],
+        'fornecedores': [
+            {
+                'nome': item.fornecedor.nome,
+                'cnpj': item.fornecedor.cnpj,
+                'endereco': item.fornecedor.endereco,
+                'quantidade': item.quantidade,
+                'custo_unidade': item.custo_unidade
+            } for item in pf
+        ]
+    }
+    
+    return resultado   
+
+@app.get('/clientes_valiosos', response_model=list, description='Mostra o padrão de compras acima da média dos clientes mais valorosos')
+async def get_clientes_valiosos():
+    vendas = await db.find(Vendas)
+    
+    if not vendas:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Nenhuma venda encontrada')
+    
+    media = sum(venda.valor_total for venda in vendas) / len(vendas)
+    
+    vendas_acima_media = [venda for venda in vendas if venda.valor_total >= media]
+    
+    resultado = []
+    resultado.append({'média': media})
+    for venda in vendas_acima_media:
+        cliente = await db.find_one(Clientes, Clientes.id == venda.cliente.id)
+        if not cliente:
+            continue
+        
+        produtos_venda = []
+        for item in venda.produtos:
+            produtos_venda.append({
+                'nome': item.produto.nome,
+                'valor_unitario': item.produto.valor_unitario,
+                'quantidade': item.quantidade
+            })
+        
+        resultado.append({
+            'cliente': {
+                'id': str(cliente.id),
+                'forma_pagamento': cliente.forma_pagamento,
+                'programa_fidelidade': cliente.programa_fidelidade
+            },
+            'produtos': produtos_venda,
+            'valor_total': venda.valor_total
+        })
+    
+    return resultado
