@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException, Request
-from crud_router_produtos import router_produtos, Produtos
-from crud_router_clientes import router_clientes, Clientes
-from crud_router_fornecedores import router_fornecedores, Fornecedores
-from crud_router_vendas import router_vendas, Vendas, ItemVenda
-from crud_router_pf import router_produtos_fornecidos, ProdutosFornecidos
-from crud_router_estoque import router_estoque, Estoque
+from .crud.crud_router_produtos import router_produtos, Produtos
+from .crud.crud_router_clientes import router_clientes, Clientes
+from .crud.crud_router_fornecedores import router_fornecedores, Fornecedores
+from .crud.crud_router_vendas import router_vendas, Vendas, ItemVenda
+from .crud.crud_router_pf import router_produtos_fornecidos, ProdutosFornecidos
+from .crud.crud_router_estoque import router_estoque, Estoque
 from db_connect import engine as db, curr_dir, get_yaml_config
 import os
 import logging as log
