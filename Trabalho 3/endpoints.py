@@ -164,54 +164,36 @@ async def get_clientes_valiosos():
     
     return resultado
 
-@app.get('/vendas_valores_especificos', response_model=list, description='Recebe ao menos um valor para min ou max para filtrar o valor das vendas')
-async def get_vendas_valores_especificos(min: float = None, max: float = None):
+@app.get('/vendas_valores_especificos', response_model=list, description='Recebe ao menos um valor para min ou max para filtrar o valor das vendas. Podendo ordenar asc ou des')
+async def get_vendas_valores_especificos(min: float = None, max: float = None, ordem: str = 'asc'):
     resultado = []
+    filtros = {}
+    ordem_valor = 1 if ordem == 'asc' else -1
     
     if min is None and max is None:
         raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail="Pelo menos um dos parâmetros 'min' ou 'max' deve ser fornecido.")
     
-    if min is None and max:
-        vendas = await db.find(Vendas, Vendas.valor_total <= max)
-        for venda in vendas:
-            resultado.append({
-                    'id': str(venda.id),
-                    'cliente': str(venda.cliente.id),
-                    'produtos': [{
-                        'id_produto': str(item.produto.id),
-                        'quantidade': item.quantidade
-                    } for item in venda.produtos],
-                    'valor_total': venda.valor_total
-
-            })
+    if min is not None:
+        filtros["valor_total"] = {"$gte": min}
+    if max is not None:
+        filtros.setdefault("valor_total", {})["$lte"] = max
     
-    if max is None and min:
-        vendas = await db.find(Vendas, Vendas.valor_total >= min)
-        for venda in vendas:
-            resultado.append({
-                    'id': str(venda.id),
-                    'cliente': str(venda.cliente.id),
-                    'produtos': [{
-                        'id_produto': str(item.produto.id),
-                        'quantidade': item.quantidade
-                    } for item in venda.produtos],
-                    'valor_total': venda.valor_total
-
-            })
+    vendas = await db.find(Vendas, filtros).sort('valor_total', ordem_valor)
             
-    if min and max:
-        vendas = await db.find(Vendas, Vendas.valor_total >= min & Vendas.valor_total <= max)
-        for venda in vendas:
-            resultado.append({
-                    'id': str(venda.id),
-                    'cliente': str(venda.cliente.id),
-                    'produtos': [{
-                        'id_produto': str(item.produto.id),
-                        'quantidade': item.quantidade
-                    } for item in venda.produtos],
-                    'valor_total': venda.valor_total
-
-            })
+    resultado = [
+        {
+            'id': str(venda.id),
+            'cliente': str(venda.cliente.id),
+            'produtos': [
+                {
+                'id_produto': str(item.produto.id), 
+                'quantidade': item.quantidade
+                } for item in venda.produtos
+            ],
+            'valor_total': venda.valor_total
+        }
+        for venda in vendas
+    ]
         
     
     return resultado
