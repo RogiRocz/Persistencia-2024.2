@@ -98,46 +98,22 @@ async def get_info_produto(id_produto: str):
     except Exception:
         raise HTTPException(status_code=HTTPStatus.BAD_REQUEST, detail='ID de produto inválido')
     
-    prod = await db.find_one(Produtos, Produtos.id == objectId_produto)
-    if prod is None:
+    produto = await db.find_one(Produtos, Produtos.id == objectId_produto)
+    if produto is None:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Produto não encontrado')
     
-    estocagem = await db.find(Estoque, Estoque.produto == prod)
+    estocagem = await db.find(Estoque, Estoque.produto.id == produto.id)
     if estocagem is None:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Estoque não encontrados')        
     
-    pf = await db.find(ProdutosFornecidos, ProdutosFornecidos.produto == prod)
+    pf = await db.find(ProdutosFornecidos, ProdutosFornecidos.produto.id == produto.id)
     if pf is None:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Produtos fornecidos não encontrados')
     
     resultado = {
-        'produto': prod,
-        'estoque': estocagem,
-        'produtos_fornecidos': pf
-    }
-    
-    resultado = {
-        'produto': {
-            'id': str(prod.id),
-            'nome': prod.nome,
-            'codigo_barras': prod.codigo_barras,
-            'valor_unitario': prod.valor_unitario
-        },
-        'estoque': [
-            {
-                'quantidade': item.quantidade,
-                'validade_dias': item.validade_dias
-            } for item in estocagem
-        ],
-        'fornecedores': [
-            {
-                'nome': item.fornecedor.nome,
-                'cnpj': item.fornecedor.cnpj,
-                'endereco': item.fornecedor.endereco,
-                'quantidade': item.quantidade,
-                'custo_unidade': item.custo_unidade
-            } for item in pf
-        ]
+        'produto': produto.dict(),
+        'estoque': [item.dict() for item in estocagem],
+        'fornecedores': [item.dict() for item in pf]
     }
     
     return resultado   
