@@ -1,127 +1,77 @@
-from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException, Request, Depends
 from db_connect import engine as db
 from models import Produtos
+from crud.pagination import PaginationParams
 from typing import List, Optional
-from pagination import PaginationParams
 from bson import ObjectId
 from http import HTTPStatus
-
-class ProdutoPy(BaseModel):
-    id: Optional[str] = None
-    codigo_barras: str
-    nome: str
-    valor_unitario: float
 
 def router_produtos():
     router = APIRouter(prefix='/produtos', tags=['produtos'])
 
-    @router.get('/', response_model=List[ProdutoPy])
+    @router.get('/', response_model=List[Produtos])
     async def get_all_produtos():
         produtos = await db.find(Produtos)
-        
-        response = [
-            ProdutoPy(
-                id=str(produto.id),
-                nome=produto.nome,
-                codigo_barras=produto.codigo_barras,
-                valor_unitario=produto.valor_unitario
-            )
-            for produto in produtos
-        ]
-        
-        return response
+        return produtos
     
-    @router.get('/pagination', response_model=List[ProdutoPy])
-    async def get_all_produtos_pagination(pag: PaginationParams):
-        ultimo_id = pag.ultimo_id
-        if ultimo_id is None:
-            ultimo_id = await db.find_one(Produtos, sort=Produtos.id)
+    @router.get('/pagination', response_model=dict)
+    async def get_all_produtos_pagination(pag: PaginationParams = Depends()):
+        result_produtos = await pag.pagination(db, Produtos)
+        return {
+            'resultado': result_produtos['resultado'],
+            'prox_id': result_produtos['prox_id'],
+            'tamanho': result_produtos['tamanho_pag'],
+            'pagina_atual': result_produtos['pagina_atual'],
+            'total_paginas': result_produtos['total_paginas']
+        }
         
-        result_produtos = await db.find(Produtos, Produtos.id > ObjectId(ultimo_id), limit=pag.tamanho)
-        
-        return [ProdutoPy(
-            id=str(produto.id),
-            nome=produto.nome,
-            codigo_barras=produto.codigo_barras,
-            valor_unitario=produto.valor_unitario
-        ) for produto in result_produtos]
-        
-    @router.get('/atributos', response_model=List[ProdutoPy])
-    async def get_produtos_especifico(req: Request):
-        atributos = req.query_params
-        
+    @router.get('/atributos', response_model=List[Produtos])
+    async def get_produtos_especifico(
+        id: Optional[str] = None,
+        nome: Optional[str] = None,
+        codigo_barras: Optional[str] = None,
+        valor_unitario: Optional[float] = None
+    ):
         filtros = {}
         
-        for chave, valor in atributos.items():
-            if chave in Produtos.model_fields:
-                tipo_chave = Produtos.model_fields[chave].annotation
-                try:
-                    valor_convertido = tipo_chave(valor)
-                except Exception:
-                    HTTPException(status_code=HTTPStatus.CONFLICT, detail=f'Valor inválido para o atributo {chave}. Esperado {tipo_chave}')
-                else:
-                    filtros[chave] = valor_convertido
+        if id is not None:
+            filtros['_id'] = ObjectId(id)
+        if nome is not None:
+            filtros['nome'] = {"$regex": f".*{nome}.*", "$options": "i"}
+        if codigo_barras is not None:
+            filtros['codigo_barras'] = codigo_barras
+        if valor_unitario is not None:
+            filtros['valor_unitario'] = valor_unitario
                 
-                produtos = await db.find(Produtos, filtros)
-                
-                if not produtos:
-                    HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Nenhum produto encontrado com os filtros fornecidos')
+        produtos = await db.find(Produtos, filtros)
+        if not produtos:
+            raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Nenhum produto encontrado com os filtros fornecidos')
                     
-        return [
-            ProdutoPy(
-                id=str(p.id),
-                nome=p.nome,
-                codigo_barras=p.codigo_barras,
-                valor_unitario=p.valor_unitario
-            )for p in produtos
-        ]
-        
-        
+        return produtos
 
-    @router.post('/', response_model=ProdutoPy)
-    async def post_produto(produto: ProdutoPy):
-        novo_produto = Produtos(
-            nome=produto.nome,
-            codigo_barras=produto.codigo_barras,
-            valor_unitario=produto.valor_unitario
-        )
+    @router.post('/', response_model=Produtos)
+    async def post_produto(produto: Produtos):
+        await db.save(produto)
+        return produto
         
-        await db.save(novo_produto)
-        
-        return ProdutoPy(
-            id=str(novo_produto.id),
-            nome=novo_produto.nome,
-            codigo_barras=novo_produto.codigo_barras,
-            valor_unitario=novo_produto.valor_unitario
-        )
-        
-    @router.put('/{id_produto}', response_model=ProdutoPy)
-    async def put_produto(id_produto:str, novo_produto: ProdutoPy):
+    @router.put('/{id_produto}', response_model=Produtos)
+    async def put_produto(id_produto: str, novo_produto: Produtos):
         antigo_produto = await db.find_one(Produtos, Produtos.id == ObjectId(id_produto))
         if antigo_produto is None:
-            raise HTTPException(status_code=HTTPStatus.NOT_FOUND ,detail=f'Produto não encontrado')
+            raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Produto não encontrado')
         
-        antigo_produto.nome = novo_produto.nome
-        antigo_produto.codigo_barras = novo_produto.codigo_barras
-        antigo_produto.valor_unitario = novo_produto.valor_unitario
+        antigo_produto.nome = novo_produto.nome if novo_produto.nome else antigo_produto.nome
+        antigo_produto.codigo_barras = novo_produto.codigo_barras if novo_produto.codigo_barras else antigo_produto.codigo_barras
+        antigo_produto.valor_unitario = novo_produto.valor_unitario if novo_produto.valor_unitario else antigo_produto.valor_unitario
                 
         await db.save(antigo_produto)
-        
-        return ProdutoPy(
-            id=str(antigo_produto.id),
-            nome=antigo_produto.nome,
-            codigo_barras=antigo_produto.codigo_barras,
-            valor_unitario=antigo_produto.valor_unitario
-        )
+        return antigo_produto
     
     @router.delete('/{id_produto}', response_model=int)
     async def delete_produto(id_produto: str):
         deleted_count = await db.remove(Produtos, Produtos.id == ObjectId(id_produto), just_one=True)
-        
         if deleted_count == 0:
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail=f'Produto não encontrado')
-        
         return deleted_count
         
     return router

@@ -1,6 +1,6 @@
 from odmantic import Model, Field, Reference
 from typing import Optional, List
-from pydantic import field_validator
+from pydantic import validator
 import re
 
 class Produtos(Model):
@@ -32,8 +32,7 @@ class Vendas(Model):
             
         return total
 
-    @field_validator('valor_total', mode='after')
-    @classmethod
+    @validator('valor_total', pre=True)
     def valida_valor_total(cls, valor):        
         if valor > 10**8:
             raise ValueError('O valor_total tem mais de 10 dígitos')
@@ -48,7 +47,7 @@ class Fornecedores(Model):
     cnpj: str = Field(unique=True)
     endereco: str
     
-    @field_validator("cnpj")
+    @validator("cnpj")
     @classmethod
     def validar_cnpj(cls, valor: str) -> str:
         padrao_cnpj = r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$"
@@ -62,7 +61,7 @@ class ProdutosFornecidos(Model):
     quantidade: int = Field(ge=1)
     custo_unidade: float
     
-    @field_validator('custo_unidade', mode='after')
+    @validator('custo_unidade', pre=True)
     @classmethod
     def valida_custo_unidade(cls, valor):                    
         if valor > 10**8:
