@@ -9,12 +9,12 @@ from http import HTTPStatus
 def router_clientes():
     router = APIRouter(prefix='/clientes', tags=['clientes'])
 
-    @router.get('/', response_model=List[Clientes])
+    @router.get('/', response_model=List[Clientes], description="Lista todos os clientes")
     async def listar_clientes():
         clientes = await db.find(Clientes)
         return clientes
 
-    @router.get('/pagination', response_model=dict)
+    @router.get('/pagination', response_model=dict, description="Lista todos os clientes com paginação")
     async def get_all_clientes_pagination(pag: PaginationParams = Depends()):
         result_clientes = await pag.pagination(db, Clientes)
         return {
@@ -25,7 +25,7 @@ def router_clientes():
             'total_paginas': result_clientes['total_paginas']
         }
         
-    @router.get('/atributos', response_model=List[Clientes])
+    @router.get('/atributos', response_model=List[Clientes], description="Obtém clientes específicos com base em atributos")
     async def get_clientes_especificos(
         id: Optional[str] = None,
         forma_pagamento: Optional[str] = None,
@@ -46,12 +46,12 @@ def router_clientes():
                 
         return clientes
     
-    @router.post('/', response_model=Clientes)
+    @router.post('/', response_model=Clientes, description="Adiciona um novo cliente")
     async def post_cliente(cliente: Clientes):
         await db.save(cliente)
         return cliente
 
-    @router.put('/{id_cliente}', response_model=Clientes)
+    @router.put('/{id_cliente}', response_model=Clientes, description="Atualiza um cliente existente")
     async def put_cliente(id_cliente: str, cliente_atualizado: Clientes):
         cliente = await db.find_one(Clientes, Clientes.id == ObjectId(id_cliente))
         if cliente is None:
@@ -63,7 +63,7 @@ def router_clientes():
         await db.save(cliente)
         return cliente
 
-    @router.delete('/{id_cliente}', response_model=int)
+    @router.delete('/{id_cliente}', response_model=int, description="Deleta um cliente existente")
     async def delete_cliente(id_cliente: str):
         deleted_count = await db.delete(Clientes, Clientes.id == ObjectId(id_cliente))
         if deleted_count == 0:

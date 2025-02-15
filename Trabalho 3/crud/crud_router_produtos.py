@@ -9,12 +9,12 @@ from http import HTTPStatus
 def router_produtos():
     router = APIRouter(prefix='/produtos', tags=['produtos'])
 
-    @router.get('/', response_model=List[Produtos])
+    @router.get('/', response_model=List[Produtos], description="Lista todos os produtos")
     async def get_all_produtos():
         produtos = await db.find(Produtos)
         return produtos
     
-    @router.get('/pagination', response_model=dict)
+    @router.get('/pagination', response_model=dict, description="Lista todos os produtos com paginação")
     async def get_all_produtos_pagination(pag: PaginationParams = Depends()):
         result_produtos = await pag.pagination(db, Produtos)
         return {
@@ -25,7 +25,7 @@ def router_produtos():
             'total_paginas': result_produtos['total_paginas']
         }
         
-    @router.get('/atributos', response_model=List[Produtos])
+    @router.get('/atributos', response_model=List[Produtos], description="Lista produtos com base em atributos específicos")
     async def get_produtos_especifico(
         id: Optional[str] = None,
         nome: Optional[str] = None,
@@ -49,12 +49,12 @@ def router_produtos():
                     
         return produtos
 
-    @router.post('/', response_model=Produtos)
+    @router.post('/', response_model=Produtos, description="Adiciona um novo produto")
     async def post_produto(produto: Produtos):
         await db.save(produto)
         return produto
         
-    @router.put('/{id_produto}', response_model=Produtos)
+    @router.put('/{id_produto}', response_model=Produtos, description="Atualiza um produto existente")
     async def put_produto(id_produto: str, novo_produto: Produtos):
         antigo_produto = await db.find_one(Produtos, Produtos.id == ObjectId(id_produto))
         if antigo_produto is None:
@@ -67,7 +67,7 @@ def router_produtos():
         await db.save(antigo_produto)
         return antigo_produto
     
-    @router.delete('/{id_produto}', response_model=int)
+    @router.delete('/{id_produto}', response_model=int, description="Deleta um produto existente")
     async def delete_produto(id_produto: str):
         deleted_count = await db.remove(Produtos, Produtos.id == ObjectId(id_produto), just_one=True)
         if deleted_count == 0:

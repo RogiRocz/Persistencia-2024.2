@@ -9,12 +9,12 @@ from http import HTTPStatus
 def router_produtos_fornecidos():
     router = APIRouter(prefix='/produtos_fornecidos', tags=['produtos_fornecidos'])
 
-    @router.get('/', response_model=List[ProdutosFornecidos])
+    @router.get('/', response_model=List[ProdutosFornecidos], description="Lista todos os produtos fornecidos")
     async def listar_produtos_fornecidos():
         produtos_fornecidos = await db.find(ProdutosFornecidos)
         return produtos_fornecidos
 
-    @router.get('/pagination', response_model=dict)
+    @router.get('/pagination', response_model=dict, description="Lista todos os produtos fornecidos com paginação")
     async def get_all_produtos_fornecidos_pagination(pag: PaginationParams = Depends()):
         result_produtos_fornecidos = await pag.pagination(db, ProdutosFornecidos)
         return {
@@ -25,7 +25,7 @@ def router_produtos_fornecidos():
             'total_paginas': result_produtos_fornecidos['total_paginas']
         }
         
-    @router.get('/atributos', response_model=List[ProdutosFornecidos])
+    @router.get('/atributos', response_model=List[ProdutosFornecidos], description="Busca produtos fornecidos por atributos específicos")
     async def get_produtos_fornecidos_especifico(
         id: Optional[str] = None,
         id_produto: Optional[str] = None,
@@ -60,7 +60,7 @@ def router_produtos_fornecidos():
         
         return produtos_fornecidos
     
-    @router.post('/', response_model=ProdutosFornecidos)
+    @router.post('/', response_model=ProdutosFornecidos, description="Adiciona um novo produto fornecido")
     async def post_produto_fornecido(pf: ProdutosFornecidos):
         produto = await db.find_one(Produtos, Produtos.id == ObjectId(pf.produto))
         if produto is None:
@@ -74,7 +74,7 @@ def router_produtos_fornecidos():
         await db.save(novo_pf)
         return novo_pf
 
-    @router.put('/{id_pf}', response_model=ProdutosFornecidos)
+    @router.put('/{id_pf}', response_model=ProdutosFornecidos, description="Atualiza um produto fornecido existente")
     async def put_produto_fornecido(id_pf: str, pf_atualizado: ProdutosFornecidos):
         pf = await db.find_one(ProdutosFornecidos, ProdutosFornecidos.id == ObjectId(id_pf))
         if pf is None:
@@ -96,7 +96,7 @@ def router_produtos_fornecidos():
         await db.save(pf)
         return pf
 
-    @router.delete('/{id_pf}', response_model=int)
+    @router.delete('/{id_pf}', response_model=int, description="Deleta um produto fornecido existente")
     async def delete_produto_fornecido(id_pf: str):
         deleted_count = await db.delete(ProdutosFornecidos, ProdutosFornecidos.id == ObjectId(id_pf))
         if deleted_count == 0:

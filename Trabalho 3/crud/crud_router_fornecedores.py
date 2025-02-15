@@ -9,12 +9,12 @@ from http import HTTPStatus
 def router_fornecedores():
     router = APIRouter(prefix='/fornecedores', tags=['fornecedores'])
     
-    @router.get('/', response_model=List[Fornecedores])
+    @router.get('/', response_model=List[Fornecedores], description="Lista todos os fornecedores")
     async def get_all_fornecedores():
         fornecedores = await db.find(Fornecedores)
         return fornecedores
     
-    @router.get('/pagination', response_model=dict)
+    @router.get('/pagination', response_model=dict, description="Lista todos os fornecedores com paginação")
     async def get_all_fornecedores_pagination(pag: PaginationParams = Depends()):
         result_fornecedores = await pag.pagination(db, Fornecedores)
         return {
@@ -25,7 +25,7 @@ def router_fornecedores():
             'total_paginas': result_fornecedores['total_paginas']
         }
         
-    @router.get('/atributos', response_model=List[Fornecedores])
+    @router.get('/atributos', response_model=List[Fornecedores], description="Lista fornecedores específicos com base em atributos")
     async def get_fornecedores_especificos(
         id: Optional[str] = None,
         nome: Optional[str] = None,
@@ -46,12 +46,12 @@ def router_fornecedores():
                 
         return fornecedores
         
-    @router.post('/', response_model=Fornecedores)
+    @router.post('/', response_model=Fornecedores, description="Adiciona um novo fornecedor")
     async def post_fornecedor(fornecedor: Fornecedores):
         await db.save(fornecedor)
         return fornecedor
             
-    @router.put('/{id_fornecedor}', response_model=Fornecedores)
+    @router.put('/{id_fornecedor}', response_model=Fornecedores, description="Atualiza um fornecedor existente")
     async def put_fornecedor(id_fornecedor: str, novo_fornecedor: Fornecedores):
         antigo_fornecedor = await db.find_one(Fornecedores, Fornecedores.id == ObjectId(id_fornecedor))
         if antigo_fornecedor is None:
@@ -64,7 +64,7 @@ def router_fornecedores():
         await db.save(antigo_fornecedor)
         return antigo_fornecedor
         
-    @router.delete('/{id_fornecedor}', response_model=int)
+    @router.delete('/{id_fornecedor}', response_model=int, description="Deleta um fornecedor existente")
     async def delete_fornecedor(id_fornecedor: str):
         deleted_count = await db.remove(Fornecedores, Fornecedores.id == ObjectId(id_fornecedor), just_one=True)
         if deleted_count == 0:

@@ -9,12 +9,12 @@ from http import HTTPStatus
 def router_vendas():
     router = APIRouter(prefix='/vendas', tags=['vendas'])
 
-    @router.get('/', response_model=List[Vendas])
+    @router.get('/', response_model=List[Vendas], description="Lista todas as vendas")
     async def listar_vendas():
         vendas = await db.find(Vendas)
         return vendas
 
-    @router.get('/pagination', response_model=dict)
+    @router.get('/pagination', response_model=dict, description="Lista todas as vendas com paginação")
     async def get_all_vendas_pagination(pag: PaginationParams = Depends()):
         result_vendas = await pag.pagination(db, Vendas)
         return {
@@ -25,7 +25,7 @@ def router_vendas():
             'total_paginas': result_vendas['total_paginas']
         }
 
-    @router.get('/atributos', response_model=List[Vendas])
+    @router.get('/atributos', response_model=List[Vendas], description="Lista vendas com base em atributos específicos")
     async def get_vendas_especifico(
         id: Optional[str] = None,
         id_cliente: Optional[str] = None,
@@ -57,7 +57,7 @@ def router_vendas():
         
         return vendas
 
-    @router.post('/', response_model=Vendas)
+    @router.post('/', response_model=Vendas, description="Adiciona uma nova venda")
     async def post_venda(venda: Vendas):
         cliente = await db.find_one(Clientes, Clientes.id == ObjectId(venda.cliente))
         if cliente is None:
@@ -76,7 +76,7 @@ def router_vendas():
         await db.save(nova_venda)
         return nova_venda
 
-    @router.put('/{id_venda}', response_model=Vendas)
+    @router.put('/{id_venda}', response_model=Vendas, description="Atualiza uma venda existente")
     async def put_venda(id_venda: str, venda_atualizada: Vendas):
         venda = await db.find_one(Vendas, Vendas.id == ObjectId(id_venda))
         if venda is None:
@@ -100,7 +100,7 @@ def router_vendas():
         await db.save(venda)
         return venda
 
-    @router.delete('/{id_venda}', response_model=int)
+    @router.delete('/{id_venda}', response_model=int, description="Deleta uma venda existente")
     async def delete_venda(id_venda: str):
         deleted_count = await db.delete(Vendas, Vendas.id == ObjectId(id_venda))
         if deleted_count == 0:

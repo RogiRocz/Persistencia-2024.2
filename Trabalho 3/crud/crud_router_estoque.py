@@ -9,12 +9,12 @@ from http import HTTPStatus
 def router_estoque():
     router = APIRouter(prefix='/estoque', tags=['estoque'])
     
-    @router.get('/', response_model=List[Estoque])
+    @router.get('/', response_model=List[Estoque], description="Lista todos os itens de estoque")
     async def get_all_estoque():
         estoque = await db.find(Estoque)
         return estoque
     
-    @router.get('/pagination', response_model=dict)
+    @router.get('/pagination', response_model=dict, description="Lista todos os itens de estoque com paginação")
     async def get_all_estoque_pagination(pag: PaginationParams = Depends()):
         result_estoque = await pag.pagination(db, Estoque)
         return {
@@ -25,7 +25,7 @@ def router_estoque():
             'total_paginas': result_estoque['total_paginas']
         }
     
-    @router.get('/atributos', response_model=List[Estoque])
+    @router.get('/atributos', response_model=List[Estoque], description="Obtém itens de estoque específicos pelos atributos fornecidos")
     async def get_estoque_especifico(
         id: Optional[str] = None,
         id_produto: Optional[str] = None,
@@ -53,7 +53,7 @@ def router_estoque():
         
         return estoque
         
-    @router.post('/', response_model=Estoque)
+    @router.post('/', response_model=Estoque, description="Adiciona um novo item de estoque")
     async def post_estoque(estoque: Estoque):
         produto = await db.find_one(Produtos, Produtos.id == ObjectId(estoque.produto.id))
         if produto is None:
@@ -68,7 +68,7 @@ def router_estoque():
         await db.save(novo_estoque)
         return novo_estoque
 
-    @router.put('/{id_estoque}', response_model=Estoque)
+    @router.put('/{id_estoque}', response_model=Estoque, description="Atualiza um item de estoque existente")
     async def put_estoque(id_estoque: str, estoque_atualizado: Estoque):
         estoque = await db.find_one(Estoque, Estoque.id == ObjectId(id_estoque))
         if estoque is None:
@@ -85,7 +85,7 @@ def router_estoque():
         await db.save(estoque)
         return estoque
 
-    @router.delete('/{id_estoque}', response_model=int)
+    @router.delete('/{id_estoque}', response_model=int, description="Deleta um item de estoque existente")
     async def delete_estoque(id_estoque: str):
         deleted_count = await db.delete(Estoque, Estoque.id == ObjectId(id_estoque))
         if deleted_count == 0:
