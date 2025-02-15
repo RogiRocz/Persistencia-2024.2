@@ -87,7 +87,7 @@ async def create_estoque(file):
     for estoque in data:        
         produto_ref = await db.find_one(models.Produtos, models.Produtos.codigo_barras == estoque['produto'])
         if produto_ref is None:
-            print(f'create_estoque - Produto não encontrado: {estoque['produto']}')
+            print(f"create_estoque - Produto não encontrado: {estoque['produto']}")
             continue
         else:
             element = models.Estoque(produto=produto_ref, quantidade=estoque['quantidade'], validade_dias=estoque['validade_dias'])
@@ -113,7 +113,7 @@ async def create_vendas(file):
         for produto in venda['produtos']:
             p_ref = await db.find_one(models.Produtos, models.Produtos.codigo_barras == produto['produto'])
             if p_ref is None:
-                print(f'create_vendas - Produto não encontrado: {produto['produto']}')
+                print(f"create_vendas - Produto não encontrado: {produto['produto']}")
                 continue
             
             item_venda = models.ItemVenda(produto=p_ref, quantidade=produto['quantidade'])
