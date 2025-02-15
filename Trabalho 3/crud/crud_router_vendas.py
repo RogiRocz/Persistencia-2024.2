@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi import APIRouter, HTTPException, Request, Depends, Body
 from db_connect import engine as db
 from models import Vendas, Clientes, Produtos, ItemVenda
 from crud.pagination import PaginationParams
@@ -58,7 +58,17 @@ def router_vendas():
         return vendas
 
     @router.post('/', response_model=Vendas, description="Adiciona uma nova venda")
-    async def post_venda(venda: Vendas):
+    async def post_venda(venda: Vendas = Body(
+        ...,
+        example={
+            "cliente": "60d5ec49f1e7e2a5d4e8b5b1",
+            "produtos": [
+                {"produto": "60d5ec49f1e7e2a5d4e8b5b2", "quantidade": 2},
+                {"produto": "60d5ec49f1e7e2a5d4e8b5b3", "quantidade": 1}
+            ],
+            "valor_total": 150.0
+        }
+    )):
         cliente = await db.find_one(Clientes, Clientes.id == ObjectId(venda.cliente))
         if cliente is None:
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Cliente não encontrado')

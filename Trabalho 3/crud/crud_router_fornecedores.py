@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Body
 from db_connect import engine as db
 from models import Fornecedores
 from crud.pagination import PaginationParams
@@ -47,7 +47,14 @@ def router_fornecedores():
         return fornecedores
         
     @router.post('/', response_model=Fornecedores, description="Adiciona um novo fornecedor")
-    async def post_fornecedor(fornecedor: Fornecedores):
+    async def post_fornecedor(fornecedor: Fornecedores = Body(
+        ...,
+        example={
+            "nome": "Fornecedor XYZ",
+            "cnpj": "90.947.885/0001-23",
+            "endereco": "Rua Doutor Francisco de Assis Brasileiro, 373, Quixadá, CE, 63900-310"
+        }
+    )):
         await db.save(fornecedor)
         return fornecedor
             

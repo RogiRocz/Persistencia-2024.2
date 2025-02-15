@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi import APIRouter, HTTPException, Request, Depends, Body
 from db_connect import engine as db
 from models import Produtos
 from crud.pagination import PaginationParams
@@ -50,7 +50,14 @@ def router_produtos():
         return produtos
 
     @router.post('/', response_model=Produtos, description="Adiciona um novo produto")
-    async def post_produto(produto: Produtos):
+    async def post_produto(produto: Produtos = Body(
+        ...,
+        example={
+            "nome": "Arroz Integral Tipo 1",
+            "codigo_barras": "7891234567890",
+            "valor_unitario": 20.0
+        }
+    )):
         await db.save(produto)
         return produto
         

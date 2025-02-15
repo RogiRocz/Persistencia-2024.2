@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, Depends
+from fastapi import APIRouter, HTTPException, Request, Depends, Body
 from db_connect import engine as db
 from models import ProdutosFornecidos, Produtos, Fornecedores
 from crud.pagination import PaginationParams
@@ -61,7 +61,15 @@ def router_produtos_fornecidos():
         return produtos_fornecidos
     
     @router.post('/', response_model=ProdutosFornecidos, description="Adiciona um novo produto fornecido")
-    async def post_produto_fornecido(pf: ProdutosFornecidos):
+    async def post_produto_fornecido(pf: ProdutosFornecidos = Body(
+        ...,
+        example={
+            "produto": "60d5ec49f1e7e2a5d4e8b5b2",
+            "fornecedor": "60d5ec49f1e7e2a5d4e8b5b4",
+            "quantidade": 100,
+            "custo_unidade": 15.0
+        }
+    )):
         produto = await db.find_one(Produtos, Produtos.id == ObjectId(pf.produto))
         if produto is None:
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Produto não encontrado')

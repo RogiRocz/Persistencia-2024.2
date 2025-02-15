@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Body
 from db_connect import engine as db
 from models import Clientes
 from crud.pagination import PaginationParams
@@ -47,7 +47,13 @@ def router_clientes():
         return clientes
     
     @router.post('/', response_model=Clientes, description="Adiciona um novo cliente")
-    async def post_cliente(cliente: Clientes):
+    async def post_cliente(cliente: Clientes = Body(
+        ...,
+        example={
+            "forma_pagamento": "Cartão de Crédito",
+            "programa_fidelidade": "892.320.850-70"
+        }
+    )):
         await db.save(cliente)
         return cliente
 

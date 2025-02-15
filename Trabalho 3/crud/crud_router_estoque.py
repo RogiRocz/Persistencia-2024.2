@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Body
 from db_connect import engine as db
 from models import Produtos, Estoque
 from crud.pagination import PaginationParams
@@ -54,7 +54,14 @@ def router_estoque():
         return estoque
         
     @router.post('/', response_model=Estoque, description="Adiciona um novo item de estoque")
-    async def post_estoque(estoque: Estoque):
+    async def post_estoque(estoque: Estoque = Body(
+        ...,
+        example={
+            "produto": "60d5ec49f1e7e2a5d4e8b5b2",
+            "quantidade": 50,
+            "validade_dias": 180
+        }
+    )):
         produto = await db.find_one(Produtos, Produtos.id == ObjectId(estoque.produto.id))
         if produto is None:
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail='Produto não encontrado')
